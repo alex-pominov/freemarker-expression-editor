@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Result of perform evaluation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="css/result.css"/>
+</head>
+<body>
+    <!--  Output html  -->
+    <code th:if="${snippet.resultType == 'html'}">
+        <pre th:text="${result}">
+        </pre>
+    </code>
+
+    <!--  Output json  -->
+    <code th:if="${snippet.resultType == 'json'}">
+        <pre id="json" th:text="${result}">
+        </pre>
+    </code>
+    <script th:if="${snippet.resultType == 'json'}" th:inline="javascript">
+        [(${myCode})]
+    </script>
+
+    <!--  Output text  -->
+    <div th:if="${snippet.resultType == 'text'}" th:remove="tag" th:utext="${result}"></div>
+</body>
+</html>
