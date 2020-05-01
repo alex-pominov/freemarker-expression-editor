@@ -1,0 +1,75 @@
+/* Toolbox css */
+
+*:focus, *:active {outline:0 !important;}
+
+.toolbox {
+    background: #2A2D40;
+    color: #fff;
+}
+
+.toolbox--header {
+    height: 5vh;
+    min-height: 45px;
+    max-height: 5vh;
+}
+
+.toolbox--element {
+    background: #2A2D40 !important;
+    padding: 0 20px !important;
+    border: 1px solid #3C405B;
+}
+
+.toolbox--element button {
+    outline: none;
+    color: white;
+    position: relative;
+}
+
+.toolbox--element button:after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 20px;
+    left: -5px;
+    top: 13px;
+    z-index: 10;
+}
+
+.toolbox--element__menu {
+    padding: 10px 30px !important;
+    background: #3C405B;
+}
+
+.toolbox--element__menu button {
+    outline: none;
+    padding: 3px 0 3px 20px !important;
+    background: #3C405B;
+    font-size: 16px;
+    border: none;
+    color: white;
+}
+
+.toolbox--element button:hover,
+.toolbox--element__menu button:hover {
+    color: #EF7A57;
+}
+
+.variables:after {background-color: #7BC600;}
+.loops:after {background-color: #EF7A57;}
+.filters:after {background-color: #F5B855;}
+
+.button {
+    display: flex;
+    align-items: center;
+    height: 45px;
+    color: white;
+    position: relative;
+    vertical-align: center;
+    font-size: 16px;
+}
+
+button {
+    outline: none;
+    background: none;
+    border: none;
+}

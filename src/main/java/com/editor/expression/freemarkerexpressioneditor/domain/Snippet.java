@@ -1,33 +1,25 @@
 package com.editor.expression.freemarkerexpressioneditor.domain;
 
 public class Snippet {
-    private String freemarkerText;
-    private String markdownText;
-    private String editorType;
+    private String snippetText;
+    private String formatType;
     private String resultType;
+    private boolean performEvaluation;
 
-    public String getFreemarkerText() {
-        return freemarkerText;
+    public String getSnippetText() {
+        return snippetText;
     }
 
-    public void setFreemarkerText(String freemarkerText) {
-        this.freemarkerText = freemarkerText;
+    public void setSnippetText(String snippetText) {
+        this.snippetText = snippetText;
     }
 
-    public String getMarkdownText() {
-        return markdownText;
+    public String getFormatType() {
+        return formatType;
     }
 
-    public void setMarkdownText(String markdownText) {
-        this.markdownText = markdownText;
-    }
-
-    public String getEditorType() {
-        return editorType;
-    }
-
-    public void setEditorType(String editorType) {
-        this.editorType = editorType;
+    public void setFormatType(String formatType) {
+        this.formatType = formatType;
     }
 
     public String getResultType() {
@@ -36,5 +28,13 @@ public class Snippet {
 
     public void setResultType(String resultType) {
         this.resultType = resultType;
+    }
+
+    public boolean isPerformEvaluation() {
+        return performEvaluation;
+    }
+
+    public void setPerformEvaluation(boolean performEvaluation) {
+        this.performEvaluation = performEvaluation;
     }
 }
