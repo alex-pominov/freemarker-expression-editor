@@ -5,6 +5,8 @@
 .toolbox {
     background: #2A2D40;
     color: #fff;
+    overflow: auto;
+    max-height: 100vh;
 }
 
 .toolbox--header {
@@ -52,6 +54,25 @@
 .toolbox--element button:hover,
 .toolbox--element__menu button:hover {
     color: #EF7A57;
+}
+
+.filter--element {
+    background: #3C405B !important;
+    padding: 0 20px !important;
+}
+
+.filter--element__menu {
+    padding: 10px 30px !important;
+    background: #606482;
+}
+
+.filter--element__menu button {
+    outline: none;
+    padding: 3px 0 3px 20px !important;
+    background: #606482;
+    font-size: 16px;
+    border: none;
+    color: white;
 }
 
 .variables:after {background-color: #7BC600;}

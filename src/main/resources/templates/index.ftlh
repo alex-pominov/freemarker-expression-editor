@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
+<html>
 <head>
     <title>Editor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -58,15 +58,164 @@
                         </h2>
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body toolbox--element__menu">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <button type="button" onclick="loopCollection()">Loop over collection</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" onclick="loopKeyValue()">Loop over key-value pairs</button>
-                                </li>
-                            </ul>
+                        <div class="card-body toolbox--element__menu p-0">
+
+
+
+
+
+
+                            <div class="accordion" id="filterAccordion">
+                                <!--  Text  -->
+                                <div class="card border-0">
+                                    <div class="card-header filter--element" id="text">
+                                        <h2 class="mb-0">
+                                            <button class="button collapsed" type="button" data-toggle="collapse"
+                                                    data-target="#collapseText"
+                                                    aria-expanded="false" aria-controls="collapseText">
+                                                Text
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseText" class="collapse" aria-labelledby="text"
+                                         data-parent="#filterAccordion">
+                                        <div class="card-body filter--element__menu">
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('boolean')">Boolean</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('cap_first')">Capitalize first</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('capitalize')">Capitalize</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('contains')">Contains</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('date')">Date</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('ends_with')">Ends with</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('index_of')">Index of</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('json_string')">JSON from string</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('keep_after')">Keep after</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('keep_after_last')">Keep after last</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('keep_before')">Keep before</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('keep_before_last')">Keep before last</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('last_index_of')">Lasst index of</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('length')">Length</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('number')">Number</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('replace')">Replace</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('split')">Split</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('starts_with')">Start with</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('trim')">Trim</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('truncate')">Truncate</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('uncap_first')">Uncapitalize first</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('upper_case')">Upper case</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('word_list')">List from string</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--  Numbers  -->
+                                <div class="card border-0">
+                                    <div class="card-header filter--element" id="numbers">
+                                        <h2 class="mb-0">
+                                            <button class="button collapsed" type="button" data-toggle="collapse"
+                                                    data-target="#collapseNumbers" aria-expanded="false" aria-controls="collapseNumbers">
+                                                Numbers
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseNumbers" class="collapse" aria-labelledby="numbers" data-parent="#filterAccordion">
+                                        <div class="card-body filter--element__menu">
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="loopCollection()">N1</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="loopKeyValue()">N2</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--  Date & time  -->
+                                <div class="card border-0">
+                                    <div class="card-header filter--element" id="date">
+                                        <h2 class="mb-0">
+                                            <button class="button collapsed" type="button" data-toggle="collapse"
+                                                    data-target="#collapseDate" aria-expanded="false" aria-controls="collapseDate">
+                                                Date & time
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseDate" class="collapse" aria-labelledby="date"
+                                         data-parent="#filterAccordion">
+                                        <div class="card-body filter--element__menu">
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('')">D1</button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" onclick="openReferenceModalHelper('')">D2
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -85,22 +234,18 @@
                         <div class="card-body toolbox--element__menu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <button type="button" onclick="openMethodModalHelper('Assign')">Assign</button>
+                                    <button type="button" onclick="openReferenceModalHelper('Assign')">Assign</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" onclick="openMethodModalHelper('Attempt, recover')">Attempt, recover
+                                    <button type="button" onclick="openReferenceModalHelper('Attempt, recover')">Attempt, recover
                                     </button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" onclick="openMethodModalHelper('Function, return')">Function, return
+                                    <button type="button" onclick="openReferenceModalHelper('Function, return')">Function, return
                                     </button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="button" onclick="openMethodModalHelper('If, else, elseif')">If, else, elseif
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" onclick="openMethodModalHelper('Setting')">Setting
+                                    <button type="button" onclick="openReferenceModalHelper('If, else, elseif')">If, else, elseif
                                     </button>
                                 </li>
                             </ul>
@@ -140,7 +285,7 @@
 
                             <div id="__" class="checkbox-container mx-4">
                                 <label class="checkbox-label">
-                                    <input type="checkbox" name="performEvaluation" checked>
+                                    <input type="checkbox" name="performEvaluation" id="performEvaluation" checked>
                                     <span class="checkbox-custom"></span>
                                 </label>
                                 <h3 class="input-title ml-2">Evaluate</h3>
@@ -151,7 +296,7 @@
                     <div class="col-6 px-0 py-0">
                         <div class="row mx-4">
                             <h3 class="mr-2">Result: </h3>
-                            <select id="resultType" name="resultType">
+                            <select id="resultType" name="resultType" onchange="onResultTypeChange(this)">
                                 <option value="text">Text</option>
                                 <option value="html">HTML</option>
                                 <option value="xml">XML</option>
@@ -163,7 +308,7 @@
                                 <button type="reset">
                                     <img class="btn-icon" src="assets/refresh.svg"/> Refresh
                                 </button>
-                                <button type="reset" class="mx-4">
+                                <button type="button" class="mx-4">
                                     <img class="btn-icon" src="assets/save.svg"/> Save
                                 </button>
 
@@ -201,7 +346,7 @@
                     <!--  Result column  -->
                     <div class="col-6 px-1 py-1 editor-side-column">
                         <!--  iFrame  -->
-                        <iframe type="text/plain" id="code" name="resultFrame"></iframe>
+                        <iframe id="code" name="resultFrame"></iframe>
                     </div>
 
                 </div>
@@ -223,14 +368,14 @@
                     <h4>Description:</h4>
                     <p id="description"></p>
                 </div>
-                <div class="tips parameters" id="parameters">
-                </div>
+                <div class="tips parameters" id="parameters"></div>
                 <div class="tips">
                     <h4>Example:</h4>
                     <code>
-                        <pre><p id="example"></p></pre>
+                        <pre id="example"></pre>
                     </code>
                 </div>
+                <div class="tips" id="referenceOutput"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="cancel-btn" data-dismiss="modal">Cancel</button>

@@ -1,30 +1,36 @@
 const parameters = document.getElementById("parameters");
-let methods = [];
+const referenceOutput = document.getElementById("referenceOutput");
+let freemarkerReferences = [];
 let template = '';
 
 window.onload = function () {
-    fetch("http://localhost:8080/methods")
+    fetch("http://localhost:8080/freemarkerReferences")
         .then(responce => responce.json())
-        .then(json => methods = json);
+        .then(json => freemarkerReferences = json);
 };
 
 
-function openMethodModalHelper(methodName) {
+function openReferenceModalHelper(methodName) {
     parameters.innerHTML = "";
-    console.log(methodName);
-    const method = methods.find(method => method.name === methodName);
+    referenceOutput.innerHTML = "";
+    const reference = freemarkerReferences.find(method => method.name === methodName);
 
-    if (method.length !== 0) {
-        template = method.template;
-        document.getElementById("modalHelperTitle").innerHTML = method.name;
-        document.getElementById("description").innerHTML = method.documentation;
-        document.getElementById("example").innerHTML = method.example;
+    if (reference.length !== 0) {
+        template = reference.template;
+        document.getElementById("modalHelperTitle").innerHTML = reference.name;
+        document.getElementById("description").innerHTML = reference.documentation;
+        document.getElementById("example").innerHTML = reference.example;
 
-        if (method.parameters) {
-            const html = `
-            <h4>Parameters:</h4>
-            <code>${method.parameters}</code>`;
+        if (reference.parameters) {
+            const html = `<h4>Parameters: <span>${reference.parameters}</span></h4>`;
             parameters.insertAdjacentHTML('afterbegin', html);
+        }
+
+        if (reference.output) {
+            const html = `
+                <h4>Output:</h4>
+                <pre>${reference.output}</pre>`;
+            referenceOutput.insertAdjacentHTML('afterbegin', html);
         }
     }
     $('#modalFilterHelper').modal();

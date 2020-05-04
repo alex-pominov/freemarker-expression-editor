@@ -30,13 +30,12 @@ public class IndexController {
 
     @GetMapping("/")
     public String expressionEditor(Model model) {
-        model.addAttribute("snippet", new Snippet());
         return "index";
     }
 
-    @GetMapping(value = "/methods", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getMethods() {
-        Resource resource = new ClassPathResource("/static/methods.json");
+    @GetMapping(value = "/freemarkerReferences", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getFreemarkerReferences() {
+        Resource resource = new ClassPathResource("/static/freemarkerReferences.json");
         try {
             ObjectMapper mapper = new ObjectMapper();
             Object obj = mapper.readValue(resource.getInputStream(), Object.class);
@@ -48,7 +47,7 @@ public class IndexController {
         }
     }
 
-    @PostMapping("/processTemplate")
+    @PostMapping(value = "/processTemplate", produces = "text/xml; charset=utf-8")
     public String evaluateOnSubmit(@ModelAttribute Snippet snippet, Model model) throws IOException, TemplateException, ParserConfigurationException, SAXException {
         return snippetService.processTemplate(snippet, model);
     }

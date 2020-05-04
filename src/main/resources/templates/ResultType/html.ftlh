@@ -1,19 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<#ftl output_format="XML" auto_esc=false>
-    ${snippetText?html}
-
-<#macro book>
-    <html>
-    <head>
-        <title>qwe</title>
-    </head>
-    <body>
-        ${snippetText}
-    </body>
-    </html>
-</#macro>
-
-<@book />
-
-
-<#--<#macro @text>${.node?html}</#macro>-->
+<#ftl output_format="HTML" auto_esc=false />
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+<#list snippetText as row>
+    ${row?trim}
+</#list>
+</body>
+</html>
