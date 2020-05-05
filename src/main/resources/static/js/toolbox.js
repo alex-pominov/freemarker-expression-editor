@@ -1,8 +1,11 @@
-const parameters = document.getElementById("parameters");
+// Modal selectors
+const referenceParameters = document.getElementById("referenceParameters");
+const referenceDescription = document.getElementById("referenceDescription");
 const referenceOutput = document.getElementById("referenceOutput");
-let freemarkerReferences = [];
-let template = '';
 
+
+// Fetch FM References when page loaded
+let freemarkerReferences = [];
 window.onload = function () {
     fetch("http://localhost:8080/freemarkerReferences")
         .then(responce => responce.json())
@@ -10,20 +13,28 @@ window.onload = function () {
 };
 
 
-function openReferenceModalHelper(methodName) {
-    parameters.innerHTML = "";
+// Open modal with chosen reference
+let template = '';
+function openModalWithReference(methodName) {
+    referenceDescription.innerHTML = "";
+    referenceParameters.innerHTML = "";
     referenceOutput.innerHTML = "";
+
     const reference = freemarkerReferences.find(method => method.name === methodName);
 
-    if (reference.length !== 0) {
+    if (!reference.length) {
         template = reference.template;
-        document.getElementById("modalHelperTitle").innerHTML = reference.name;
-        document.getElementById("description").innerHTML = reference.documentation;
-        document.getElementById("example").innerHTML = reference.example;
+        document.getElementById("referenceName").innerHTML = reference.name;
+        document.getElementById("referenceExample").innerHTML = reference.example;
+
+        if (reference.documentation) {
+            const html = `<h4>Description:</h4><p>${reference.documentation}</p>`;
+            referenceDescription.insertAdjacentHTML('afterbegin', html);
+        }
 
         if (reference.parameters) {
             const html = `<h4>Parameters: <span>${reference.parameters}</span></h4>`;
-            parameters.insertAdjacentHTML('afterbegin', html);
+            referenceParameters.insertAdjacentHTML('afterbegin', html);
         }
 
         if (reference.output) {
@@ -36,7 +47,9 @@ function openReferenceModalHelper(methodName) {
     $('#modalFilterHelper').modal();
 }
 
-function onAddExpressionToEditor() {
+
+// Add reference from modal to editor area
+function addReferenceToEditor() {
     const statement = template;
     const selection = editor.getSelection();
 

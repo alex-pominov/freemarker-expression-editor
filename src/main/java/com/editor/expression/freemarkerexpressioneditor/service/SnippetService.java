@@ -1,5 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor.service;
 
+import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.Snippet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,9 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -32,82 +35,64 @@ import java.util.regex.Pattern;
 @Service
 public class SnippetService {
 
-    public String processTemplate(Snippet snippet, Model model) throws IOException, TemplateException {
+    public ResponseEntity<String> processTemplate(Snippet snippet, Map<String, Object> dataModel) throws IOException, TemplateException {
         String result = "";
 
-        // Perform evaluate FM expression if checkbox checked
-        if (snippet.isPerformEvaluation()) {
-            result = evaluateFreemarkerTemplate(snippet.getSnippetText());
-        } else {
-            // Just get template text without processing
-            result = snippet.getSnippetText();
-        }
+        // Set headers to required content-type
+        final HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setContentType(MediaType.valueOf(snippet.getResultType()));
 
-        // Evaluate markdown template if is it format type
-        if (snippet.getFormatType().equals("markdown")) {
-            result = evaluateMarkdownTemplate(result);
-        }
-
-        model.addAttribute("result", result);
-        switch (snippet.getResultType()) {
-            case "text":
-                return "text";
-            case "html":
-                StringWriter out = new StringWriter();
-                Configuration cfg = buildConfiguration("/templates/ResultType");
-                Template htmlTemplate = cfg.getTemplate("html.ftlh");
-                Map<String, Object> dataModel = new HashMap<>();
-                dataModel.put("snippetText", result.split("\n"));
-
-                htmlTemplate.process(dataModel, out);
-                result = out + "";
-                String[] arr = result.split("\n");
-                model.addAttribute("result", arr);
-                return "html";
-            default:
-                break;
-        }
-
-        return "result";
-    }
-
-    public Object checkTemplateForError(Snippet snippet) {
         try {
-            evaluateFreemarkerTemplate(snippet.getSnippetText());
-            evaluateMarkdownTemplate(snippet.getSnippetText());
-            return new ResponseEntity<>(HttpStatus.OK);
+            // Perform evaluate FM expression if checkbox checked
+            if (snippet.isPerformEvaluation()) {
+                result = evaluateFreemarkerTemplate(snippet.getSnippetText(), dataModel);
+            } else {
+                // Just get template text without processing
+                result = snippet.getSnippetText();
+            }
+
+            // Evaluate markdown template if is it format type
+            if (snippet.getFormatType().equals("markdown") && !snippet.getResultType().equals("text/plain")) {
+                result = evaluateMarkdownTemplate(result);
+            }
+
+            // Evaluate html fragment if content-type is html
+            if (snippet.getResultType().equals("text/html")) {
+                Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+                Resource path = new DefaultResourceLoader().getResource("/templates/ResultType");
+                cfg.setDirectoryForTemplateLoading(path.getFile());
+                Template htmlTemplate = cfg.getTemplate("html.ftlh");
+
+                Map<String, Object> model = new HashMap<>();
+                model.put("snippetText", result.split("\n"));
+
+                StringWriter out = new StringWriter();
+                htmlTemplate.process(model, out);
+                result = out + "";
+
+                return new ResponseEntity<String>(result, httpHeaders, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<String>(result, httpHeaders, HttpStatus.OK);
+
         } catch (IOException | TemplateException e) {
             String error = e.toString();
-            Pattern p = Pattern.compile("(Failed.*(?=,))|(Syntax.*(?=,))");
-            Matcher matcher = p.matcher(error);
-            matcher.find();
-            String templateError = matcher.group()
-                    .replaceAll("Failed", "Error")
-                    .replaceAll("nameless", "")
-                    .replaceAll("[\\[\\]]", "");
-
-            throw new IllegalStateException(templateError);
+            throw new IllegalStateException(error);
         }
     }
 
-    // Build Freemarker configuration
-    private Configuration buildConfiguration(String directory) throws IOException {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
-        Resource path = new DefaultResourceLoader().getResource(directory);
-        cfg.setDirectoryForTemplateLoading(path.getFile());
-        return cfg;
-    }
-
-    private String evaluateFreemarkerTemplate(String stringTemplate) throws IOException, TemplateException {
+    // Evaluate Freemarker expressions
+    private String evaluateFreemarkerTemplate(String stringTemplate, Object dataModel) throws IOException, TemplateException {
         StringWriter out = new StringWriter();
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
         Template template = new Template(null, stringTemplate, configuration);
-        template.process(null, out);
+        template.process(dataModel, out);
 
         return out + "";
     }
 
-    private String evaluateMarkdownTemplate(String stringTemplate) throws IOException, TemplateException {
+    // Evaluate Markdown expressions
+    private String evaluateMarkdownTemplate(String stringTemplate)  {
         MutableDataSet options = new MutableDataSet();
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();

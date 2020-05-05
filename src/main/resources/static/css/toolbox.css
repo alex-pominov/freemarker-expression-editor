@@ -2,6 +2,17 @@
 
 *:focus, *:active {outline:0 !important;}
 
+.card {
+    border-radius: 0 !important;
+    border: 0 !important;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
 .toolbox {
     background: #2A2D40;
     color: #fff;
@@ -15,19 +26,19 @@
     max-height: 5vh;
 }
 
-.toolbox--element {
+.toolbox--expressionsTypes {
     background: #2A2D40 !important;
     padding: 0 20px !important;
     border: 1px solid #3C405B;
 }
 
-.toolbox--element button {
+.toolbox--expressionsTypes button {
     outline: none;
     color: white;
     position: relative;
 }
 
-.toolbox--element button:after {
+.toolbox--expressionsTypes button:after {
     content: '';
     position: absolute;
     width: 3px;
@@ -37,47 +48,59 @@
     z-index: 10;
 }
 
-.toolbox--element__menu {
-    padding: 10px 30px !important;
+.toolbox--expressionsTypes__menu {
+    padding: 0 !important;
     background: #3C405B;
 }
 
-.toolbox--element__menu button {
+.toolbox--expressionsTypes__menu ul li {
+    height: 40px;
+}
+
+.toolbox--expressionsTypes__menu button {
     outline: none;
-    padding: 3px 0 3px 20px !important;
-    background: #3C405B;
+    padding: 0 0 0 30px !important;
     font-size: 16px;
     border: none;
     color: white;
 }
 
 .toolbox--element button:hover,
-.toolbox--element__menu button:hover {
+.toolbox--expressionsTypes__menu button:hover {
     color: #EF7A57;
 }
 
-.filter--element {
+
+
+.toolbox--categories {
     background: #3C405B !important;
-    padding: 0 20px !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.filter--element__menu {
-    padding: 10px 30px !important;
+.toolbox--categories h2 {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.toolbox--categories__menu {
+    padding: 5px 20px !important;
     background: #606482;
 }
 
-.filter--element__menu button {
-    outline: none;
-    padding: 3px 0 3px 20px !important;
+.toolbox--categories__menu button {
+    padding: 0 0 0 20px !important;
     background: #606482;
     font-size: 16px;
+    outline: none;
     border: none;
     color: white;
 }
 
-.variables:after {background-color: #7BC600;}
-.loops:after {background-color: #EF7A57;}
-.filters:after {background-color: #F5B855;}
+.Variable:after {background-color: #7BC600;}
+.ControlandLoops:after {background-color: #EF7A57;}
+.Filters:after {background-color: #F5B855;}
 
 .button {
     display: flex;

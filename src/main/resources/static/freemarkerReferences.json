@@ -1,9 +1,34 @@
 [
   {
+    "name": "Product",
+    "type": "Variable",
+    "documentation": "",
+    "insertRule": "append",
+    "parameters": "name, productId, price",
+    "example": "${product.name}",
+    "output": "Table",
+    "template": "product"
+  },
+  {
+    "name": "Customer",
+    "type": "Variable",
+    "documentation": "",
+    "insertRule": "append",
+    "parameters": "name, address, phoneNumber, hobbies",
+    "example": "${customer.phoneNumber}",
+    "output": "+1 302-246-1037",
+    "template": "customer"
+  },
+
+
+
+
+
+
+  {
     "name": "Assign",
-    "type": "template",
-    "category": "Directive Reference",
-    "documentation": "With this you can create a new variable, or replace an existing variable. Note that only top-level variables can be created/replaced (i.e. you can't create/replace <span>some_hash.subvar</span>, but <span>some_hash</span>).",
+    "type": "Control and Loops",
+    "documentation": "With this you can create a new Variable, or replace an existing Variable. Note that only top-level Variables can be created/replaced (i.e. you can't create/replace <span>some_hash.subvar</span>, but <span>some_hash</span>).",
     "insertRule": "insert",
     "parameters": [
       "Name",
@@ -15,8 +40,7 @@
   },
   {
     "name": "Attempt, recover",
-    "type": "template",
-    "category": "Directive Reference",
+    "type": "Control and Loops",
     "documentation": "These directives are used if you want the page successfully outputted even if the outputting of a certain part of the page fails. If an error occurs during the execution of the <span><em>attempt block</em></span>, then the output of the <span><em>attempt block</em></span> is rolled back (and the error is logged, with the default configuration at least), and the <span><em>recover block</em></span> is executed instead, then template execution continues normally after the <span><em>recover block</em></span>. If no error occurs during the execution of the <span><em>attempt block</em></span>, then the <span><em>recover block</em></span> is ignored.",
     "insertRule": "insert",
     "parameters": [
@@ -28,18 +52,16 @@
   },
   {
     "name": "Function, return",
-    "type": "template",
-    "category": "Directive Reference",
-    "documentation": "Creates a method variable (in the current namespace, if you know namespace feature). <span>Return</span> directive must have a parameter that specifies the return value of the method, and that attempts to write to the output will be ignored. If the <span><em></#function></span><em> is reached (i.e. there was no <span>return <em>returnValue</em></span>), then the return value of the method is an undefined variable.",
+    "type": "Control and Loops",
+    "documentation": "Creates a method Variable (in the current namespace, if you know namespace feature). <span>Return</span> directive must have a parameter that specifies the return value of the method, and that attempts to write to the output will be ignored. If the <span><em></#function></span><em> is reached (i.e. there was no <span>return <em>returnValue</em></span>), then the return value of the method is an undefined Variable.",
     "insertRule": "insert",
-    "parameters": "<ul><li><span>name</span>: name of method variable (not expression).</li><li><span>param1, param2, ...etc.</span>: the name of the local variables store the parameter values (not expression);</li><li><span>returnValue</span>: the expression that calculates the value of the method call.</li></ul>",
+    "parameters": "<ul><li><span>name</span>: name of method Variable (not expression).</li><li><span>param1, param2, ...etc.</span>: the name of the local Variables store the parameter values (not expression);</li><li><span>returnValue</span>: the expression that calculates the value of the method call.</li></ul>",
     "example": "<#function avg x y>\n  <#return (x + y) / 2>\n&lt;/#function>\n${avg(10, 20)}",
     "template": "<#function name param1 param2 ... paramN>\n  ...\n  <#return returnValue>\n  ...\n</#function>\n"
   },
   {
     "name": "If, else, elseif",
-    "type": "template",
-    "category": "Directive Reference",
+    "type": "Control and Loops",
     "documentation": "You can use <span>if, elseif</span> and <span>else</span> directives to conditionally skip a section of the template. The <span><em>condition</em></span>-s must evaluate to a boolean value, or else an error will abort template processing. The <span>elseif</span>-s and <span>else</span>-s must occur inside <span>if</span>(that is, between the <span>if</span> start-tag and end-tag). The <span>if</span> can contain any number of <span>elseif</span>-s (including 0) and at the end optionally one <span>else</span>.",
     "insertRule": "insert",
     "parameters": "<ul><li><span>condition, condition2, ...etc.</span>:Expression evaluates to a boolean value.</li></ul>",
@@ -50,9 +72,10 @@
 
 
 
+
   {
-    "name": "boolean",
-    "type": "filter",
+    "name": "Boolean",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string converted to boolean value. The string must be true or false (case sensitive!), or must be in the format specified by the boolean_format setting.",
     "insertRule": "append",
@@ -62,8 +85,8 @@
     "template": "?boolean"
   },
   {
-    "name": "cap_first",
-    "type": "filter",
+    "name": "Capitalize first",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string with the very first word of the string capitalized.",
     "insertRule": "append",
@@ -73,8 +96,8 @@
     "template": "?cap_first"
   },
   {
-    "name": "capitalize",
-    "type": "filter",
+    "name": "Capitalize",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string with all words capitalized.",
     "insertRule": "append",
@@ -84,8 +107,8 @@
     "template": "?capitalize"
   },
   {
-    "name": "contains",
-    "type": "filter",
+    "name": "Contains",
+    "type": "Filters",
     "category": "string",
     "documentation": "Returns if the substring specified as the parameter to this built-in occurrs in the string.",
     "insertRule": "append",
@@ -95,8 +118,8 @@
     "template": "?contains(String)"
   },
   {
-    "name": "date",
-    "type": "filter",
+    "name": "Date",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string value converted to a date, time, or date-time value. It will expect the format specified by the date_format, time_format and datetime_format settings. If the string is not in the appropriate format, an error will abort template processing when you try to access this built-in. You can also specify the format explicitly like ?datetime.format (and hence also as ?datetime[\"format\"]) or ?datetime(\"format\"); these three forms do the same. The format can be specified similarly with ?date and ?time too. ",
     "insertRule": "append",
@@ -106,8 +129,8 @@
     "template": "?date"
   },
   {
-    "name": "ends_with",
-    "type": "filter",
+    "name": "Ends with",
+    "type": "Filters",
     "category": "string",
     "documentation": "Returns whether this string ends with the substring specified in the parameter. For example \"ahead\"?ends_with(\"head\") returns boolean true. Also, \"head\"?ends_with(\"head\") will return true.",
     "insertRule": "append",
@@ -117,8 +140,8 @@
     "template": "?ends_with(p1)"
   },
   {
-    "name": "index_of",
-    "type": "filter",
+    "name": "Index of",
+    "type": "Filters",
     "category": "string",
     "documentation": "Returns the index within this string of the first occurrence of the specified substring. For example, \"abcabc\"?index_of(\"bc\") will return 1 (don't forget that the index of the first character is 0). Also, you can specify the index to start the search from: \"abcabc\"?index_of(\"bc\", 2) will return 4. There is no restriction on the numerical value of the second parameter: if it is negative, it has the same effect as if it were zero, and if it is greater than the length of this string, it has the same effect as if it were equal to the length of this string. Decimal values will be truncated to integers.",
     "insertRule": "append",
@@ -128,8 +151,8 @@
     "template": "index_of(p1, p2)"
   },
   {
-    "name": "json_string",
-    "type": "filter",
+    "name": "JSON string",
+    "type": "Filters",
     "category": "string",
     "documentation": "Escapes the string with the escaping rules of JSON language string literals, so it's safe to insert the value into a string literal. Note that it will not add quotation marks around the inserted value; you meant to use this inside the string literal.",
     "insertRule": "append",
@@ -139,8 +162,8 @@
     "template": "?json_string"
   },
   {
-    "name": "keep_after",
-    "type": "filter",
+    "name": "Keep after",
+    "type": "Filters",
     "category": "string",
     "documentation": "Removes the part of the string that is not after the first occurrence of the given substring.",
     "insertRule": "append",
@@ -150,8 +173,8 @@
     "template": "?keep_after(p1)"
   },
   {
-    "name": "keep_after_last",
-    "type": "filter",
+    "name": "Keep after last",
+    "type": "Filters",
     "category": "string",
     "documentation": "Same as keep_after, but keeps the part after the last occurrence of the parameter, rather than after the first.",
     "insertRule": "append",
@@ -161,8 +184,8 @@
     "template": "?keep_after_last(p1)"
   },
   {
-    "name": "keep_before",
-    "type": "filter",
+    "name": "Keep before",
+    "type": "Filters",
     "category": "string",
     "documentation": "Removes the part of the string that starts with the given substring. If the parameter string is not found, it will return the original string unchanged. If the parameter string is a 0-length string, it will return an empty string.",
     "insertRule": "append",
@@ -172,8 +195,8 @@
     "template": "?keep_before(p1, p2)"
   },
   {
-    "name": "keep_before_last",
-    "type": "filter",
+    "name": "Keep before last",
+    "type": "Filters",
     "category": "string",
     "documentation": "Same as keep_before, but keeps the part before the last occurrence of the parameter, rather than after the first.",
     "insertRule": "append",
@@ -183,8 +206,8 @@
     "template": "?keep_before_last(p1)"
   },
   {
-    "name": "last_index_of",
-    "type": "filter",
+    "name": "Last index of",
+    "type": "Filters",
     "category": "string",
     "documentation": "Returns the index within this string of the last (rightmost) occurrence of the specified substring. It returns the index of the first (leftmost) character of the substring. For example: \"abcabc\"?last_index_of(\"ab\") will return 3. Also, you can specify the index to start the search from. For example, \"abcabc\"?last_index_of(\"ab\", 2) will return 0. Note that the second parameter indicates the maximum index of the start of the substring. There is no restriction on the numerical value of the second parameter: if it is negative, it has the same effect as if it were zero, and if it is greater than the length of this string, it has the same effect as if it were equal to the length of this string. Decimal values will be truncated to inegers.",
     "insertRule": "append",
@@ -194,8 +217,8 @@
     "template": "?last_index_of(String)"
   },
   {
-    "name": "length",
-    "type": "filter",
+    "name": "Length",
+    "type": "Filters",
     "category": "string",
     "documentation": "Return the number of characters in the string.",
     "insertRule": "append",
@@ -205,8 +228,8 @@
     "template": "?length"
   },
   {
-    "name": "lower_case",
-    "type": "filter",
+    "name": "Lower case",
+    "type": "Filters",
     "category": "string",
     "documentation": "The lower case version of the string.",
     "insertRule": "append",
@@ -216,8 +239,8 @@
     "template": "?lower_case"
   },
   {
-    "name": "number",
-    "type": "filter",
+    "name": "Number",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string converted to numerical value. The number must be in \"computer language\" format. That is, it must be in the locale independent form, where the decimal separator is dot, and there's no grouping.",
     "insertRule": "append",
@@ -227,8 +250,8 @@
     "template": "?number"
   },
   {
-    "name": "replace",
-    "type": "filter",
+    "name": "Replace",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string converted to numerical value. The number must be in \"computer language\" format. That is, it must be in the locale independent form, where the decimal separator is dot, and there's no grouping.",
     "insertRule": "append",
@@ -238,8 +261,8 @@
     "template": "?replace(p1, p2)"
   },
   {
-    "name": "split",
-    "type": "filter",
+    "name": "Split",
+    "type": "Filters",
     "category": "string",
     "documentation": "It is used to split a string into a sequence of strings along the occurrences of another string.",
     "insertRule": "append",
@@ -249,8 +272,8 @@
     "template": "?split(p1)"
   },
   {
-    "name": "starts_with",
-    "type": "filter",
+    "name": "Starts_with",
+    "type": "Filters",
     "category": "string",
     "documentation": "Returns if this string starts with the specified substring.",
     "insertRule": "append",
@@ -260,8 +283,8 @@
     "template": "?starts_with(p1)"
   },
   {
-    "name": "trim",
-    "type": "filter",
+    "name": "Trim",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string without leading and trailing white-space.",
     "insertRule": "append",
@@ -271,8 +294,8 @@
     "template": "?trim"
   },
   {
-    "name": "truncate",
-    "type": "filter",
+    "name": "Truncate",
+    "type": "Filters",
     "category": "string",
     "documentation": "Cuts off the end of a string if that's necessary to keep it under a the length given as parameter, and appends a terminator string ([...] by default) to indicate that the string was truncated.",
     "insertRule": "append",
@@ -282,8 +305,8 @@
     "template": "?truncate(p1)"
   },
   {
-    "name": "uncap_first",
-    "type": "filter",
+    "name": "Un-capitalize first",
+    "type": "Filters",
     "category": "string",
     "documentation": "The string with the very first word of the string un-capitalized.",
     "insertRule": "append",
@@ -293,8 +316,8 @@
     "template": "?uncap_first"
   },
   {
-    "name": "upper_case",
-    "type": "filter",
+    "name": "Upper case",
+    "type": "Filters",
     "category": "string",
     "documentation": "The upper case version of the string.",
     "insertRule": "append",
@@ -304,8 +327,8 @@
     "template": "?upper_case"
   },
   {
-    "name": "word_list",
-    "type": "filter",
+    "name": "Word list",
+    "type": "Filters",
     "category": "string",
     "documentation": "A sequence that contains all words of the string in the order as they appear in the string. Words are continual character sequences that contain any character but white-space.",
     "insertRule": "append",
@@ -314,4 +337,5 @@
     "output": "[a][bcd,][.][1-2-3]",
     "template": "?word_list"
   }
+  
 ]

@@ -1,2 +1,0 @@
-<#ftl output_format="XML" auto_esc=true />
-${result}

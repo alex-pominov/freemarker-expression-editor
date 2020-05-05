@@ -1,24 +1,27 @@
 const editorArea = document.getElementById("editorArea");
 const formatType = document.getElementById("formatType")
 const resultType = document.getElementById("resultType");
-const performEvaluation = document.getElementById("performEvaluation");
-const code = document.getElementById("code").contentWindow.document;
-const wysiswygCheckbox = document.getElementById("wysiswyg");
+const code = document.getElementById("code");
 const autoShow = document.getElementById('autoShowCheckbox');
+const errorArea = document.getElementById("errorArea");
 
+//
+/*------------ Set format type when page loaded to avoid common droplist bug ------------*/
 document.addEventListener("DOMContentLoaded", function (event) {
     onFormatTypeChange(formatType);
 });
 
-// Editor
+/*-------------------- Codemirror setup --------------------*/
 const editor = CodeMirror.fromTextArea(editorArea, {
     lineNumbers: true,
     viewportMargin: Infinity,
     mode: "freemarker",
     styleActiveLine: true,
     indentWithTabs: true,
+    extraKeys: {"Ctrl-Space": "autocomplete"}
 });
 
+/*------ Handle codemirror mode when format type changed ------*/
 function onFormatTypeChange(obj) {
     switch (obj.value) {
         case 'expression':
@@ -56,56 +59,40 @@ function onFormatTypeChange(obj) {
     editor.refresh();
 }
 
+/*-------- Evaluate template and pass to iFrame on submit --------*/
 async function evaluateTemplate() {
-    const form = document.getElementById("evalForm");
+    errorArea.innerHTML = '';
 
-    if (performEvaluation.checked) {
+    // Build uri for GET request
+    const evaluateTemplate = document.querySelector('#performEvaluation:checked') !== null;
+    const uri = "http://localhost:8080/processTemplate?" +
+        "formatType=" + formatType.value +
+        "&performEvaluation=" + evaluateTemplate +
+        "&resultType=" + resultType.value +
+        "&snippetText=" + editor.getValue();
 
-        const data = {
-            snippetText: editor.getValue(),
-            formatType: formatType.value,
-            resultType: resultType.value
-        };
-
-        // Check Status
-        fetch('http://localhost:8080/checkTemplate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => {
-            if (res.ok) {
-                document.getElementById("errorArea").innerHTML = '';
-                form.submit();
-            } else {
-                res.json().then(error => {
-                    document.getElementById("errorArea").innerHTML = error.message;
-                });
-            }
-        });
-    } else {
-        form.submit();
-    }
+    fetch(encodeURI(uri)).then(res => {
+        if (res.ok) {
+            document.getElementById('code').src = res.url;
+        } else {
+            res.json().then(error => errorArea.innerHTML = error.message);
+        }
+    });
 }
 
-autoShow.addEventListener('click', function () {
-    if (autoShow.checked) {
-        evaluateTemplate();
-    }
-});
-
-// Debounce function
-editor.on('change', function () {
-    if (autoShow.checked) {
-        evaluateOnChange();
-    }
-});
-
+/*-------------------- Evaluate template on changes --------------------*/
+const doEvaluation = () => autoShow.checked && evaluateOnChange();
 const evaluateOnChange = debounce(function () {
     evaluateTemplate();
-}, 1000);
+}, 700);
 
+formatType.addEventListener('change', evaluateTemplate, false);
+resultType.addEventListener('change', evaluateTemplate, false);
+document.querySelector('#performEvaluation').addEventListener('change', doEvaluation, false);
+autoShow.addEventListener('click', doEvaluation, false);
+editor.on('change', doEvaluation);
+
+// Debounce function
 function debounce(func, wait, immediate) {
     let timeout;
     return function executedFunction() {
@@ -121,35 +108,3 @@ function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 };
-
-/*
-let result;
-function onResultTypeChange(obj) {
-    if (obj.value === 'html') {
-        // document.getElementById("code").srcdoc = result[0].result;
-    }
-    if (obj.value === 'text') {
-        document.getElementById("code").src = "data:text/css;charset=utf-8," + escape(result[0].result);
-    }
-    if (obj.value === 'json') {
-        const iframedoc = document.getElementById('code').contentDocument || document.getElementById('code').contentWindow.document;
-        iframedoc.open();
-        iframedoc.writeln(`<pre>${JSON.stringify({
-            "id": 1,
-            "first_name": "Bertie",
-            "last_name": "Charity",
-            "email": "bcharity0@nymag.com",
-            "gender": "Female",
-            "ip_address": "56.70.92.98"
-        }, null, 4)}</pre>`);
-        iframedoc.close();
-    }
-    if (obj.value === 'xml') {
-        // document.getElementById("code").src = "data:text/xml;charset=utf-8," + escape(result[0].result);
-        const iframedoc = document.getElementById('code').contentDocument || document.getElementById('code').contentWindow.document;
-        iframedoc.open('<xsl:output method="xml" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN" indent="yes" /> ');
-        iframedoc.writeln("<start><h1>Hello</h1><h2>End2</h2></start>");
-        iframedoc.close();
-    }
-}
-*/
