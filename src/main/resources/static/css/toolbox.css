@@ -1,4 +1,4 @@
-/* Toolbox css */
+/* expressions css */
 
 *:focus, *:active {outline:0 !important;}
 
@@ -7,38 +7,38 @@
     border: 0 !important;
 }
 
-ul li {
+.expressions-bar ul li {
     display: flex;
     align-items: center;
     height: 30px;
 }
 
-.toolbox {
+.expressions-bar {
     background: #2A2D40;
     color: #fff;
     overflow: auto;
     max-height: 100vh;
 }
 
-.toolbox--header {
+.expressions--header {
     height: 5vh;
     min-height: 45px;
     max-height: 5vh;
 }
 
-.toolbox--expressionsTypes {
+.expressions--expressionsTypes {
     background: #2A2D40 !important;
     padding: 0 20px !important;
     border: 1px solid #3C405B;
 }
 
-.toolbox--expressionsTypes button {
+.expressions--expressionsTypes button {
     outline: none;
     color: white;
     position: relative;
 }
 
-.toolbox--expressionsTypes button:after {
+.expressions--expressionsTypes button:after {
     content: '';
     position: absolute;
     width: 3px;
@@ -48,16 +48,16 @@ ul li {
     z-index: 10;
 }
 
-.toolbox--expressionsTypes__menu {
+.expressions--expressionsTypes__menu {
     padding: 0 !important;
     background: #3C405B;
 }
 
-.toolbox--expressionsTypes__menu ul li {
+.expressions--expressionsTypes__menu ul li {
     height: 40px;
 }
 
-.toolbox--expressionsTypes__menu button {
+.expressions--expressionsTypes__menu button {
     outline: none;
     padding: 0 0 0 30px !important;
     font-size: 16px;
@@ -65,31 +65,57 @@ ul li {
     color: white;
 }
 
-.toolbox--element button:hover,
-.toolbox--expressionsTypes__menu button:hover {
+.expressions--element button:hover,
+.expressions--expressionsTypes__menu button:hover {
     color: #EF7A57;
 }
 
-
-
-.toolbox--categories {
+.expressions--categories {
     background: #3C405B !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-.toolbox--categories h2 {
+.expressions--categories .button[aria-expanded="true"] {
+    color: #EF7A57;
+}
+
+.expressions--categories .button[aria-expanded="true"] + .arrow {
+    margin-left: auto;
+    border: solid #EF7A57;
+    margin-top: 3px;
+    border-width: 0 3px 3px 0;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.expressions--categories h2 {
     height: 40px;
     display: flex;
     align-items: center;
+
+    /*justify-content: space-between;*/
+    padding: 0 30px;
 }
 
-.toolbox--categories__menu {
-    padding: 5px 20px !important;
+.expressions--categories button {
+    outline: none;
+    padding: 0 !important;
+    font-size: 16px;
+    border: none;
+    color: white;
+}
+
+.expressions--categories__menu {
+    padding: 5px 5px 5px 25px !important;
     background: #606482;
 }
 
-.toolbox--categories__menu button {
+.expressions--categories__menu ul li {
+    height: 30px;
+}
+
+.expressions--categories__menu button {
     padding: 0 0 0 20px !important;
     background: #606482;
     font-size: 16px;
@@ -99,7 +125,7 @@ ul li {
 }
 
 .Variable:after {background-color: #7BC600;}
-.ControlandLoops:after {background-color: #EF7A57;}
+.ControlandLoops:after {background-color: #ef5757;}
 .Filters:after {background-color: #F5B855;}
 
 .button {
@@ -116,4 +142,16 @@ button {
     outline: none;
     background: none;
     border: none;
+}
+
+.arrow {
+    margin-left: auto;
+
+    border: solid #2A2D40;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }

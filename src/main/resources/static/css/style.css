@@ -159,3 +159,11 @@ form button:hover .btn-icon {
 .modal-content #referenceOutput {
     color: darkslategrey;
 }
+
+.modal-content ul {
+    margin: 5px 10px;
+    padding: 3px 10px 3px 30px;
+}
+.modal-content ul li {
+    color: darkslategrey;
+}

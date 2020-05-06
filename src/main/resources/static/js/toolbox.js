@@ -1,6 +1,7 @@
 // Modal selectors
 const referenceParameters = document.getElementById("referenceParameters");
 const referenceDescription = document.getElementById("referenceDescription");
+const referenceExample = document.getElementById("referenceExample");
 const referenceOutput = document.getElementById("referenceOutput");
 
 
@@ -18,6 +19,7 @@ let template = '';
 function openModalWithReference(methodName) {
     referenceDescription.innerHTML = "";
     referenceParameters.innerHTML = "";
+    referenceExample.innerHTML = "";
     referenceOutput.innerHTML = "";
 
     const reference = freemarkerReferences.find(method => method.name === methodName);
@@ -25,7 +27,6 @@ function openModalWithReference(methodName) {
     if (!reference.length) {
         template = reference.template;
         document.getElementById("referenceName").innerHTML = reference.name;
-        document.getElementById("referenceExample").innerHTML = reference.example;
 
         if (reference.documentation) {
             const html = `<h4>Description:</h4><p>${reference.documentation}</p>`;
@@ -37,12 +38,20 @@ function openModalWithReference(methodName) {
             referenceParameters.insertAdjacentHTML('afterbegin', html);
         }
 
-        if (reference.output) {
+        if (reference.example) {
             const html = `
+                <h4>Example:</h4>
+                <pre>${reference.example}</pre>`;
+            referenceExample.insertAdjacentHTML('afterbegin', html);
+
+            if (reference.output) {
+                const html = `
                 <h4>Output:</h4>
                 <pre>${reference.output}</pre>`;
-            referenceOutput.insertAdjacentHTML('afterbegin', html);
+                referenceOutput.insertAdjacentHTML('afterbegin', html);
+            }
         }
+
     }
     $('#modalFilterHelper').modal();
 }

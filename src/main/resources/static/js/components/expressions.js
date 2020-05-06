@@ -15,42 +15,41 @@ const expressionsBar = () => {
     categories,
     type,
     typeWithoutSpase
-  ) => {
-    return (
-      <div className="card">
-        <div
-          className={`card-header toolbox--${name}`}
-          id={`heading${typeWithoutSpase}`}
-        >
-          <h2 className="mb-0">
-            <button
-              className={`button collapsed ${typeWithoutSpase}`}
-              type="button"
-              data-toggle="collapse"
-              data-target={`#${typeWithoutSpase}`}
-              aria-expanded={false}
-              aria-controls={`${typeWithoutSpase}`}
-            >
-              {type}
-            </button>
-          </h2>
-        </div>
+  ) => (
+    <div className="card">
+      <div
+        className={`card-header expressions--${name}`}
+        id={`heading${typeWithoutSpase}`}
+      >
+        <h2 className="mb-0">
+          <button
+            className={`button collapsed ${typeWithoutSpase}`}
+            type="button"
+            data-toggle="collapse"
+            data-target={`#${typeWithoutSpase}`}
+            aria-expanded={false}
+            aria-controls={`${typeWithoutSpase}`}
+          >
+            {type}
+          </button>
+          {name === "categories" && <i class="arrow"></i>}
+        </h2>
+      </div>
 
-        <div
-          id={`${typeWithoutSpase}`}
-          className="collapse"
-          aria-labelledby={`heading${typeWithoutSpase}`}
-          data-parent={`#${name}`}
-        >
-          <div className={`card-body toolbox--${name}__menu`}>
-            <ul className="nav flex-column">
-              {renderOptions(options, categories)}
-            </ul>
-          </div>
+      <div
+        id={`${typeWithoutSpase}`}
+        className="collapse"
+        aria-labelledby={`heading${typeWithoutSpase}`}
+        data-parent={`#${name}`}
+      >
+        <div className={`card-body expressions--${name}__menu`}>
+          <ul className="nav flex-column">
+            {renderOptions(options, categories)}
+          </ul>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   const renderOptions = (options, categories) => {
     if (!categories.length) {
@@ -62,17 +61,21 @@ const expressionsBar = () => {
         </li>
       ));
     } else {
-      return categories.map((type) => {
-        const options = Object.values(references)
-          .filter((v) => v.category === type)
-          .map((item) => item.name);
-        const typeWithoutSpase = type.replace(/ /g, "");
-        return (
-          <div class="accordion" id="categories">
-            {renderAccordion("categories", options, [], type, typeWithoutSpase)}
-          </div>
-        );
-      });
+      return (
+        <div class="accordion" id="categories">
+          {categories.map((type) =>
+            renderAccordion(
+              "categories",
+              (options = Object.values(references)
+                .filter((v) => v.subcategory === type)
+                .map((item) => item.name)),
+              [],
+              type,
+              type.replace(/ /g, "")
+            )
+          )}
+        </div>
+      );
     }
   };
 
@@ -85,7 +88,7 @@ const expressionsBar = () => {
           ...new Set(
             Object.values(object)
               .filter((v) => v.type === type)
-              .map((v) => v.category)
+              .map((v) => v.subcategory)
               .filter(Boolean)
           ),
         ];
@@ -116,7 +119,7 @@ const expressionsBar = () => {
   return (
     <div>
       <div id="expression-container"></div>
-      <h3 className="p-3 toolbox--header">Expressions:</h3>
+      <h3 className="p-3 expressions--header">Expressions:</h3>
       <div class="accordion" id="expressionsTypes">
         {expressionTypes(references)}
       </div>
