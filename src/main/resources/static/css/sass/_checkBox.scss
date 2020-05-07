@@ -1,0 +1,99 @@
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 1rem;
+  margin-left: 1rem;
+
+  .input-title {
+    margin-left: 5px !important;
+    clear: both;
+    font-size: 18px;
+  }
+
+  /* Styling Checkbox Starts */
+  .checkbox-label {
+    display: block;
+    position: relative;
+    margin: auto;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 16px;
+    height: 20px;
+    width: 24px;
+    clear: both;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-custom {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 20px;
+      width: 20px;
+      background-color: transparent;
+      transition: all 0.3s ease-out;
+      border: 1px solid grey;
+    }
+
+    input:checked ~ .checkbox-custom {
+      background-color: #FFFFFF;
+      transform: rotate(0deg) scale(1);
+      opacity:1;
+      border: 1px solid #EF7A57;
+    }
+
+    .checkbox-custom::after {
+      position: absolute;
+      content: "";
+      left: 10px;
+      top: 10px;
+      height: 0px;
+      width: 0px;
+      border: solid #EF7A57;
+      border-width: 0 3px 3px 0;
+      transform: rotate(0deg) scale(0);
+      opacity:1;
+      transition: all 0.3s ease-out;
+    }
+
+    input:checked ~ .checkbox-custom::after {
+      transform: rotate(45deg) scale(1);
+      opacity:1;
+      left: 6px;
+      top: 2px;
+      width: 6px;
+      height: 11px;
+      border: solid #EF7A57;
+      border-width: 0 2px 2px 0;
+      background-color: transparent;
+      border-radius: 0;
+    }
+
+    .checkbox-custom::before {
+      position: absolute;
+      content: "";
+      left: 10px;
+      top: 10px;
+      width: 0px;
+      height: 0px;
+      border: 1px solid #EF7A57;
+      transform: scale(0);
+    }
+
+    input:checked ~ .checkbox-custom::before {
+      left: -3px;
+      top: -3px;
+      width: 20px;
+      height: 20px;
+      transform: scale(3);
+      opacity:0;
+      z-index: 999;
+      transition: all 0.3s ease-out;
+    }
+  }
+}

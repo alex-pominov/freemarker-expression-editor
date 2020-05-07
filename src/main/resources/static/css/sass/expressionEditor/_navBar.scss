@@ -1,0 +1,24 @@
+select {
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  font-size: 14px !important;
+  border-bottom: 1px solid #2A2D40;
+  background: transparent !important;
+}
+
+.navBar {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 5vh;
+  margin: 0 !important;
+  min-height: 45px;
+  max-height: 5vh;
+
+  h3 {
+    margin-right: 0.5rem;
+  }
+}

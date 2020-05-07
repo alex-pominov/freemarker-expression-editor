@@ -9,6 +9,11 @@ const expressionsBar = () => {
       .then((refs) => setReferences(refs));
   }, []);
 
+  const onModalOpenHandler = (itemName) => {
+    const obj = {... references.filter(item => item.name === itemName)[0]};
+    return openModalWithReference(obj);
+  }
+
   const renderAccordion = (
     name,
     options,
@@ -55,7 +60,7 @@ const expressionsBar = () => {
     if (!categories.length) {
       return options.map((item) => (
         <li className="nav-item">
-          <button type="button" onClick={() => openModalWithReference(item)}>
+          <button type="button" onClick={() => onModalOpenHandler(item)}>
             {item}
           </button>
         </li>

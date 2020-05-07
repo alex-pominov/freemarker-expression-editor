@@ -5,7 +5,7 @@ const code = document.getElementById("code");
 const autoShow = document.getElementById('autoShowCheckbox');
 const errorArea = document.getElementById("errorArea");
 
-//
+
 /*------------ Set format type when page loaded to avoid common droplist bug ------------*/
 document.addEventListener("DOMContentLoaded", function (event) {
     onFormatTypeChange(formatType);

@@ -1,0 +1,22 @@
+.errors {
+  height: 15%;
+  border: 2px solid #f0e8e8;
+  max-height: 15%;
+
+  &--title {
+    height: 30px;
+    max-height: 25%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding-left: 1rem !important;
+    background: #f4f0f0;
+  }
+}
+
+#errorArea {
+  height: max-content;
+  color: brown;
+  overflow: auto;
+  max-height: 75%;
+}

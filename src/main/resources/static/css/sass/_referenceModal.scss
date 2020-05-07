@@ -1,0 +1,58 @@
+.modal-content {
+
+  .modal-title {
+    margin: 0;
+    font-size: 18px !important;
+    padding: 10px 0 0 15px !important;
+    color: #B5B5B5;
+    text-transform: uppercase;
+  }
+
+  & #referenceDescription {
+    width: 100%;
+    font-size: 14px;
+
+    p {
+      margin: 0px;
+      padding: 5px 5px 0px 40px;
+      width: 100%;
+      line-height: 1.2rem;
+    }
+  }
+
+  & #referenceOutput {
+    color: darkslategrey;
+  }
+
+  // Subtitles
+  h4 {
+    margin: 0;
+    font-size: 16px !important;
+    padding: 10px 0 0 15px !important;
+    color: #B5B5B5;
+  }
+
+  // Parameters styling when as list
+  ul {
+    margin: 5px 10px;
+    padding: 3px 10px 3px 30px;
+
+    li {
+      color: darkslategrey;
+    }
+  }
+
+  // Highlight parts in description
+  span {
+    color: indianred;
+  }
+
+  // Styling code blocks
+  pre {
+    margin: 5px 10px;
+    padding: 3px 10px 3px 30px;
+    background: #eeffed;
+    font-size: 14px;
+    color: darkslateblue;
+  }
+}

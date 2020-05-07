@@ -53,10 +53,11 @@ CodeMirror.registerHelper("hint", "freemarker", function (editor) {
     }
 });
 
-CodeMirror.commands.autocomplete = function(cm) {
-    cm.showHint({hint: CodeMirror.hint.anyword});
-}
+// CodeMirror.commands.autocomplete = function(cm) {
+//     cm.showHint({hint: CodeMirror.hint.anyword});
+// }
 
+// Trigger hint on keyup
 editor.on("keyup", function (cm, event) {
     if (!cm.state.completionActive && // Enables keyboard navigation in autocomplete list
         event.keyCode !== 13) {       // Enter - do not open autocomplete list just after item has been selected in it

@@ -4,25 +4,13 @@ const referenceDescription = document.getElementById("referenceDescription");
 const referenceExample = document.getElementById("referenceExample");
 const referenceOutput = document.getElementById("referenceOutput");
 
-
-// Fetch FM References when page loaded
-let freemarkerReferences = [];
-window.onload = function () {
-    fetch("http://localhost:8080/freemarkerReferences")
-        .then(responce => responce.json())
-        .then(json => freemarkerReferences = json);
-};
-
-
 // Open modal with chosen reference
 let template = '';
-function openModalWithReference(methodName) {
+function openModalWithReference(reference) {
     referenceDescription.innerHTML = "";
     referenceParameters.innerHTML = "";
     referenceExample.innerHTML = "";
     referenceOutput.innerHTML = "";
-
-    const reference = freemarkerReferences.find(method => method.name === methodName);
 
     if (!reference.length) {
         template = reference.template;
@@ -51,7 +39,6 @@ function openModalWithReference(methodName) {
                 referenceOutput.insertAdjacentHTML('afterbegin', html);
             }
         }
-
     }
     $('#modalFilterHelper').modal();
 }
@@ -73,5 +60,4 @@ function addReferenceToEditor() {
         }
         doc.replaceRange(statement, pos);
     }
-    template = '';
 }

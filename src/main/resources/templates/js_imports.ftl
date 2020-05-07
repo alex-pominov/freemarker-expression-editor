@@ -23,9 +23,7 @@
     <script type="text/javascript" src="plugin/codemirror/addon/selection/active-line.js"></script>
 
     <#-- Hints -->
-    <script type="text/javascript" src="plugin/codemirror/addon/hint/anyword-hint.js"></script>
     <script type="text/javascript" src="plugin/codemirror/addon/hint/show-hint.js"></script>
-
 
     <!-- Javascript Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -37,7 +35,7 @@
 
     <!-- App JS -->
     <script type="text/javascript" src="js/app.js"></script>
-    <script type="text/javascript" src="js/toolbox.js"></script>
+    <script type="text/javascript" src="js/referenceModal.js"></script>
     <script type="text/javascript" src="js/FreemarkerDictionary.js"></script>
 
     <!-- Load React. -->
@@ -45,6 +43,6 @@
     <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
     <!-- Load our React component. -->
-    <script type="text/babel" src="js/components/expressions.js"></script>
+    <script type="text/babel" src="js/reactjs/expressions.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </#macro>

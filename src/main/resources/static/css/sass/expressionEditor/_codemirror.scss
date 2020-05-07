@@ -1,0 +1,23 @@
+.CodeMirror {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  max-width: 800px;
+  min-height: 350px;
+}
+
+.editor-window {
+  display: flex;
+  height: 85%;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-bottom: auto;
+  border: 2px solid #f0e8e8;
+
+  &--title {
+    height: 30px;
+    width: 100%;
+    background: #f0e8e8;
+    max-height: 25%;
+  }
+}

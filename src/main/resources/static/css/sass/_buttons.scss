@@ -1,0 +1,46 @@
+// Common styling for buttons
+button {
+  outline: none;
+  background: none;
+  border: none;
+
+  color: #2A2D40;
+  font-size: 14px;
+
+  img {
+    height: 16px;
+    vertical-align: middle;
+    padding-bottom: 3px;
+  }
+
+  &:hover {
+    color: #EF7A57 !important;
+  }
+
+  &:hover .btn-icon {
+    filter: invert(55%) sepia(86%) saturate(1060%) hue-rotate(326deg) brightness(101%) contrast(87%);
+  }
+}
+
+/* Submit button */
+.submit-btn {
+  background: #EF7A57;
+  color: white;
+  font-weight: 600;
+
+  &:hover {
+    background: #f5886c;
+    color: white !important;
+  }
+
+  img, &:hover .btn-icon {
+    filter: invert(100%) sepia(100%) saturate(15%) hue-rotate(261deg) brightness(103%) contrast(105%);
+  }
+}
+
+/* Cancel button */
+.cancel-btn {
+  font-weight: 600;
+  background: #E7E7E7;
+  color: #2A2D40;
+}
