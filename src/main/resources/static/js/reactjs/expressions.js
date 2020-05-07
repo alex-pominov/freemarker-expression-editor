@@ -3,6 +3,7 @@ const e = React.createElement;
 const expressionsBar = () => {
   const [references, setReferences] = React.useState(null);
 
+  // Fetch references from server
   React.useEffect(() => {
     fetch("http://localhost:8080/freemarkerReferences")
       .then((responce) => responce.json())
@@ -10,12 +11,54 @@ const expressionsBar = () => {
   }, []);
 
   const onModalOpenHandler = (itemName) => {
-    const obj = {... references.filter(item => item.name === itemName)[0]};
+    const obj = { ...references.filter((item) => item.name === itemName)[0] };
     return openModalWithReference(obj);
-  }
+  };
+
+  const expressions = (object) => {
+    if (object) {
+      // Unique types of expressions
+      const types = [...new Set(Object.values(object).map((v) => v.type))];
+
+      // Render accordion for each of type
+      return types.map((type) => {
+        const subcategories = [
+          ...new Set(
+            Object.values(object)
+              .filter((v) => v.type === type)
+              .map((v) => v.subcategory)
+              .filter(Boolean)
+          ),
+        ];
+
+        let options = [];
+        if (!subcategories.length) {
+          options = [
+            ...new Set(
+              Object.values(object)
+                .filter((v) => v.type === type)
+                .map((v) => v.name)
+            ),
+          ];
+        }
+
+        // Create new variable with type without space
+        // to avoid naming error during render accodrion
+        const typeWithoutSpase = type.replace(/ /g, "");
+
+        return renderAccordion(
+          "expressionsTypes",
+          options,
+          subcategories,
+          type,
+          typeWithoutSpase
+        );
+      });
+    }
+  };
 
   const renderAccordion = (
-    name,
+    dataParent,
     options,
     categories,
     type,
@@ -23,7 +66,7 @@ const expressionsBar = () => {
   ) => (
     <div className="card">
       <div
-        className={`card-header expressions--${name}`}
+        className={`card-header expressions--${dataParent}`}
         id={`heading${typeWithoutSpase}`}
       >
         <h2 className="mb-0">
@@ -37,7 +80,7 @@ const expressionsBar = () => {
           >
             {type}
           </button>
-          {name === "categories" && <i class="arrow"></i>}
+          {dataParent === "categories" && <i class="arrow"></i>}
         </h2>
       </div>
 
@@ -45,19 +88,20 @@ const expressionsBar = () => {
         id={`${typeWithoutSpase}`}
         className="collapse"
         aria-labelledby={`heading${typeWithoutSpase}`}
-        data-parent={`#${name}`}
+        data-parent={`#${dataParent}`}
       >
-        <div className={`card-body expressions--${name}__menu`}>
+        <div className={`card-body expressions--${dataParent}__menu`}>
           <ul className="nav flex-column">
-            {renderOptions(options, categories)}
+            {renderAccordionOptions(options, categories)}
           </ul>
         </div>
       </div>
     </div>
   );
 
-  const renderOptions = (options, categories) => {
+  const renderAccordionOptions = (options, categories) => {
     if (!categories.length) {
+      // if no subcategories than render as a list
       return options.map((item) => (
         <li className="nav-item">
           <button type="button" onClick={() => onModalOpenHandler(item)}>
@@ -66,6 +110,7 @@ const expressionsBar = () => {
         </li>
       ));
     } else {
+      // if type has subcategories than render it as accordion
       return (
         <div class="accordion" id="categories">
           {categories.map((type) =>
@@ -84,51 +129,13 @@ const expressionsBar = () => {
     }
   };
 
-  const expressionTypes = (object) => {
-    if (object) {
-      const types = [...new Set(Object.values(object).map((v) => v.type))];
-
-      return types.map((type) => {
-        const categories = [
-          ...new Set(
-            Object.values(object)
-              .filter((v) => v.type === type)
-              .map((v) => v.subcategory)
-              .filter(Boolean)
-          ),
-        ];
-
-        let options = [];
-        if (!categories.length) {
-          options = [
-            ...new Set(
-              Object.values(object)
-                .filter((v) => v.type === type)
-                .map((v) => v.name)
-            ),
-          ];
-        }
-
-        const typeWithoutSpase = type.replace(/ /g, "");
-        return renderAccordion(
-          "expressionsTypes",
-          options,
-          categories,
-          type,
-          typeWithoutSpase
-        );
-      });
-    }
-  };
-
   return (
-    <div>
-      <div id="expression-container"></div>
-      <h3 className="p-3 expressions--header">Expressions:</h3>
+    <React.Fragment>
+      <h3 className="expressions--header">Expressions</h3>
       <div class="accordion" id="expressionsTypes">
-        {expressionTypes(references)}
+        {expressions(references)}
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -6,15 +6,9 @@ import com.editor.expression.freemarkerexpressioneditor.domain.Snippet;
 import com.editor.expression.freemarkerexpressioneditor.service.SnippetService;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +24,7 @@ public class SnippetController {
     }
 
     @RequestMapping(value = "/processTemplate", method = RequestMethod.GET)
-    public ResponseEntity<String> processTemplate(@ModelAttribute Snippet snippet) throws IOException, TemplateException {
+    public ResponseEntity<String> processTemplate(@ModelAttribute Snippet snippet) {
 
         Map<String, Object> dataModel = new HashMap<>();
         Product product = new Product("Table", "001233", 150.5, 75d, 100d);

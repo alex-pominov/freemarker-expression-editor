@@ -19,8 +19,12 @@
 
   &--header {
     height: 5vh;
+    padding: 1rem !important;
     min-height: 45px;
     max-height: 5vh;
+    text-transform: uppercase;
+    font-weight: bold !important;
+    letter-spacing: 1px;
   }
 
   &--expressionsTypes {
@@ -59,8 +63,6 @@
         border: none;
         color: white;
       }
-
-
     }
   }
 

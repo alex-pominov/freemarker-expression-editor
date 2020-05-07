@@ -1,17 +1,19 @@
+"use strict"
+
 const editorArea = document.getElementById("editorArea");
 const formatType = document.getElementById("formatType")
 const resultType = document.getElementById("resultType");
 const code = document.getElementById("code");
 const autoShow = document.getElementById('autoShowCheckbox');
 const errorArea = document.getElementById("errorArea");
+const wysiswyg = document.getElementById("wysiswyg");
 
-
-/*------------ Set format type when page loaded to avoid common droplist bug ------------*/
+/*##### Set format type when page loaded to avoid common drop-list bug #####*/
 document.addEventListener("DOMContentLoaded", function (event) {
     onFormatTypeChange(formatType);
 });
 
-/*-------------------- Codemirror setup --------------------*/
+/*##### Codemirror setup #####*/
 const editor = CodeMirror.fromTextArea(editorArea, {
     lineNumbers: true,
     viewportMargin: Infinity,
@@ -21,7 +23,7 @@ const editor = CodeMirror.fromTextArea(editorArea, {
     extraKeys: {"Ctrl-Space": "autocomplete"}
 });
 
-/*------ Handle codemirror mode when format type changed ------*/
+/*##### Handle codemirror mode when format type changed #####*/
 function onFormatTypeChange(obj) {
     switch (obj.value) {
         case 'expression':
@@ -49,29 +51,30 @@ function onFormatTypeChange(obj) {
     switch (obj.value) {
         case 'html':
         case 'markdown':
-            wysiswygCheckbox.style.display = 'flex';
+            wysiswyg.style.display = 'flex';
             break;
         default:
-            wysiswygCheckbox.style.display = 'none';
+            wysiswyg.style.display = 'none';
             break;
     }
 
     editor.refresh();
 }
 
-/*-------- Evaluate template and pass to iFrame on submit --------*/
+/*##### Evaluate template and pass to iFrame on submit #####*/
 async function evaluateTemplate() {
     errorArea.innerHTML = '';
+    const expression = encodeURIComponent(editor.getValue())        // Encode separately to replace(/#/, '%23');
 
     // Build uri for GET request
     const evaluateTemplate = document.querySelector('#performEvaluation:checked') !== null;
-    const uri = "http://localhost:8080/processTemplate?" +
+    const uri = encodeURI("http://localhost:8080/processTemplate?" +
         "formatType=" + formatType.value +
         "&performEvaluation=" + evaluateTemplate +
         "&resultType=" + resultType.value +
-        "&snippetText=" + editor.getValue();
+        "&snippetText=") + expression;
 
-    fetch(encodeURI(uri)).then(res => {
+    fetch(uri).then(res => {
         if (res.ok) {
             document.getElementById('code').src = res.url;
         } else {
@@ -80,7 +83,7 @@ async function evaluateTemplate() {
     });
 }
 
-/*-------------------- Evaluate template on changes --------------------*/
+/*##### Evaluate template on changes #####*/
 const doEvaluation = () => autoShow.checked && evaluateOnChange();
 const evaluateOnChange = debounce(function () {
     evaluateTemplate();

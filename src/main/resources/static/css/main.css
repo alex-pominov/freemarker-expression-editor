@@ -17,8 +17,12 @@
     height: 30px; }
   .expressions--header {
     height: 5vh;
+    padding: 1rem !important;
     min-height: 45px;
-    max-height: 5vh; }
+    max-height: 5vh;
+    text-transform: uppercase;
+    font-weight: bold !important;
+    letter-spacing: 1px; }
   .expressions--expressionsTypes {
     background: #2A2D40 !important;
     padding: 0 20px !important;
@@ -297,6 +301,9 @@ button {
   padding: 10px 0 0 15px !important;
   color: #B5B5B5;
   text-transform: uppercase; }
+
+.modal-content .modal-body {
+  padding: 0 20px 10px 0 !important; }
 
 .modal-content #referenceDescription {
   width: 100%;

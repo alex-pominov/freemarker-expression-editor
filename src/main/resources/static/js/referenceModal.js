@@ -6,6 +6,7 @@ const referenceOutput = document.getElementById("referenceOutput");
 
 // Open modal with chosen reference
 let template = '';
+
 function openModalWithReference(reference) {
     referenceDescription.innerHTML = "";
     referenceParameters.innerHTML = "";
@@ -27,9 +28,10 @@ function openModalWithReference(reference) {
         }
 
         if (reference.example) {
+            const example = reference.example.replace(/<\/#/, "&lt;/#");
             const html = `
                 <h4>Example:</h4>
-                <pre>${reference.example}</pre>`;
+                <pre>${example}</pre>`;
             referenceExample.insertAdjacentHTML('afterbegin', html);
 
             if (reference.output) {

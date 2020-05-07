@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>Editor</title>
+  <title>Expression Editor</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link rel="stylesheet" href="css/main.css"/>
-  <!--  CodeMirror  -->
+  <!--  CodeMirror CSS  -->
   <link rel="stylesheet" href="plugin/codemirror/lib/codemirror.css"/>
   <link rel="stylesheet" href="plugin/codemirror/addon/lint/lint.css"/>
   <link rel="stylesheet" href="plugin/codemirror/addon/hint/show-hint.css"/>
@@ -12,9 +12,9 @@
 <body>
 <div class="container-fluid p-0">
   <div class="row m-0">
-    <!--  Expression References Bar  -->
+    <!--  Expression References Toolbar  -->
     <div class="col-2 p-0 expressions" id="expression-container"></div>
-    <!--  Expression editor & result  -->
+    <!--  Expression editor & result frame  -->
     <div class="col px-0 py-0">
       <div class="navBar">
         <div class="col-6 p-0">
@@ -32,9 +32,9 @@
               </select>
             </div>
 
-            <div class="checkbox-container">
+            <div id="wysiswyg" class="checkbox-container">
               <label class="checkbox-label">
-                <input type="checkbox" id="wysiswygCheckbox">
+                <input type="checkbox">
                 <span class="checkbox-custom"/>
               </label>
               <h3 class="input-title">WYSISWIG</h3>
@@ -50,7 +50,7 @@
 
           </div>
         </div>
-        <div class="col-6 px-0 py-0">
+        <div class="col-6 p-0">
           <div class="row mx-4">
             <h3>Result: </h3>
             <select id="resultType" name="resultType">
@@ -69,7 +69,6 @@
               <button type="button" class="mx-2">
                 <img class="btn-icon" src="assets/save.svg"/> Save
               </button>
-
 
               <div class="checkbox-container">
                 <label class="checkbox-label">
@@ -90,24 +89,23 @@
           </div>
         </div>
       </div>
-      <div class="row ml-0 mr-0">
-        <!--   Editor column  -->
+
+      <div class="row mx-0">
+        <!--   Codemirror part  -->
         <div class="col-6 editor-column">
           <!--  Editor  -->
           <div class="editor-window mb-1">
             <textarea name="snippetText" id="editorArea"></textarea>
           </div>
-
           <div class="errors">
             <h3 class="errors--title">Problems:</h3>
             <div id="errorArea" class="px-3 py-2"></div>
           </div>
         </div>
 
-        <!--  Result column  -->
+        <!--  Result frame part  -->
         <div class="col-6 editor-column">
-          <!--  iFrame  -->
-          <iframe id="code" name="resultFrame"></iframe>
+          <iframe id="code"></iframe>
         </div>
 
       </div>

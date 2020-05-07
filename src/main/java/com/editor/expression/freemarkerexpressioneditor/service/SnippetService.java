@@ -1,11 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor.service;
 
-import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.Snippet;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
@@ -20,22 +15,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class SnippetService {
 
-    public ResponseEntity<String> processTemplate(Snippet snippet, Map<String, Object> dataModel) throws IOException, TemplateException {
+    public ResponseEntity<String> processTemplate(Snippet snippet, Map<String, Object> dataModel) {
         String result = "";
 
         // Set headers to required content-type
@@ -59,7 +48,7 @@ public class SnippetService {
             // Evaluate html fragment if content-type is html
             if (snippet.getResultType().equals("text/html")) {
                 Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
-                Resource path = new DefaultResourceLoader().getResource("/templates/ResultType");
+                Resource path = new DefaultResourceLoader().getResource("/templates/WrapperTemplates");
                 cfg.setDirectoryForTemplateLoading(path.getFile());
                 Template htmlTemplate = cfg.getTemplate("html.ftlh");
 

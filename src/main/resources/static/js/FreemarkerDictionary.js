@@ -53,10 +53,6 @@ CodeMirror.registerHelper("hint", "freemarker", function (editor) {
     }
 });
 
-// CodeMirror.commands.autocomplete = function(cm) {
-//     cm.showHint({hint: CodeMirror.hint.anyword});
-// }
-
 // Trigger hint on keyup
 editor.on("keyup", function (cm, event) {
     if (!cm.state.completionActive && // Enables keyboard navigation in autocomplete list
