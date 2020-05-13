@@ -1,5 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor.service;
 
+import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.Snippet;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;

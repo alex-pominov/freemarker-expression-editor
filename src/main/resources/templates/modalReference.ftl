@@ -19,7 +19,9 @@
                     <div class="tips" id="referenceOutput"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="submit-btn" data-dismiss="modal" onclick="addReferenceToEditor()">Insert
+                    <button type="button" class="submit-btn" data-dismiss="modal" onclick="addReferenceToEditor(false)">Insert
+                    </button>
+                    <button type="button" id="templateAsListBtn" class="submit-btn" data-dismiss="modal" onclick="addReferenceToEditor(true)">As list
                     </button>
                     <button type="button" class="cancel-btn" data-dismiss="modal">Cancel</button>
                 </div>

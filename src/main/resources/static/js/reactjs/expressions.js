@@ -2,16 +2,17 @@ const e = React.createElement;
 
 const expressionsBar = () => {
   const [references, setReferences] = React.useState(null);
+  console.log(references);
 
   // Fetch references from server
   React.useEffect(() => {
     fetch("http://localhost:8080/freemarkerReferences")
       .then((responce) => responce.json())
-      .then((refs) => setReferences(refs));
+      .then((refs) => setReferences(refs.flat()));
   }, []);
 
   const onModalOpenHandler = (itemName) => {
-    const obj = { ...references.filter((item) => item.name === itemName)[0] };
+    const obj = {...references.filter((item) => item.name === itemName)[0]};
     return openModalWithReference(obj);
   };
 
@@ -31,16 +32,14 @@ const expressionsBar = () => {
           ),
         ];
 
-        let options = [];
-        if (!subcategories.length) {
-          options = [
-            ...new Set(
-              Object.values(object)
-                .filter((v) => v.type === type)
-                .map((v) => v.name)
-            ),
-          ];
-        }
+        let options = [
+          ...new Set(
+            Object.values(object)
+              .filter((v) => v.type === type && !v.subcategory)
+              .map((v) => v.name)
+          ),
+        ];
+
 
         // Create new variable with type without space
         // to avoid naming error during render accodrion
@@ -110,21 +109,32 @@ const expressionsBar = () => {
         </li>
       ));
     } else {
+      const opts = options.filter(x => !categories.includes(x));
+      console.log(opts)
       // if type has subcategories than render it as accordion
       return (
-        <div class="accordion" id="categories">
-          {categories.map((type) =>
-            renderAccordion(
-              "categories",
-              (options = Object.values(references)
-                .filter((v) => v.subcategory === type)
-                .map((item) => item.name)),
-              [],
-              type,
-              type.replace(/ /g, "")
-            )
-          )}
-        </div>
+        <React.Fragment>
+          {opts.length !== 0 && opts.map((item) => (
+            <li className="nav-item">
+              <button type="button" onClick={() => onModalOpenHandler(item)}>
+                {item}
+              </button>
+            </li>
+          ))}
+          <div class="accordion" id="categories">
+            {categories.map((type) =>
+              renderAccordion(
+                "categories",
+                (options = Object.values(references)
+                  .filter((v) => v.subcategory === type)
+                  .map((item) => item.name)),
+                [],
+                type,
+                type.replace(/ /g, "")
+              )
+            )}
+          </div>
+        </React.Fragment>
       );
     }
   };

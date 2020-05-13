@@ -1,57 +1,74 @@
 package com.editor.expression.freemarkerexpressioneditor.domain;
 
+import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
+import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+
+import java.util.List;
+
 public class Product {
-    private String name;
-    private String id;
-    private Double price;
-    private Double height;
-    private Double width;
+    @Id
+    private Long id;
+    private String shortDesc; // TODO multiple lang
+    private List<Price> prices;
+    private List<ClassificationGroup> classGroups;
+//    private List<AttributeValue> attributeValues;
+//    private List<Document> documents;
 
-    public Product(String name, String id, Double price, Double height, Double width) {
-        this.name = name;
+
+    public Product(
+            @JsonProperty("id") Long id,
+            @JsonProperty("shortDesc") String shortDesc,
+            @JsonProperty("prices") List<Price> prices,
+            @JsonProperty("classGroups") List<ClassificationGroup> classGroups
+    ) {
         this.id = id;
-        this.price = price;
-        this.height = height;
-        this.width = width;
+        this.shortDesc = shortDesc;
+        this.prices = prices;
+        this.classGroups = classGroups;
     }
 
-    public void setHeight(Double height) {
-        this.height = height;
+    @Override
+    public String toString() {
+        return "Product {\n" +
+                "   id = " + id +  ",\n" +
+                "   shortDesc = " + shortDesc + ",\n" +
+                "   prices = " + prices + ",\n" +
+                "   classGroups = " + classGroups + ",\n" +
+                '}';
     }
 
-    public Double getHeight() {
-        return height;
-    }
-
-    public Double getWidth() {
-        return width;
-    }
-
-    public void setWidth(Double width) {
-        this.width = width;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getShortDesc() {
+        return shortDesc;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
     }
+
+    public List<Price> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Price> prices) {
+        this.prices = prices;
+    }
+
+    public List<ClassificationGroup> getClassGroups() {
+        return classGroups;
+    }
+
+    public void setClassGroups(List<ClassificationGroup> classGroups) {
+        this.classGroups = classGroups;
+    }
+
 }

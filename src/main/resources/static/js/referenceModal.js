@@ -3,15 +3,17 @@ const referenceParameters = document.getElementById("referenceParameters");
 const referenceDescription = document.getElementById("referenceDescription");
 const referenceExample = document.getElementById("referenceExample");
 const referenceOutput = document.getElementById("referenceOutput");
+const templateAsListBtn = document.getElementById("templateAsListBtn");
 
 // Open modal with chosen reference
 let template = '';
-
+let listTemplate = '';
 function openModalWithReference(reference) {
     referenceDescription.innerHTML = "";
     referenceParameters.innerHTML = "";
     referenceExample.innerHTML = "";
     referenceOutput.innerHTML = "";
+    templateAsListBtn.style.display = "none";
 
     if (!reference.length) {
         template = reference.template;
@@ -41,14 +43,19 @@ function openModalWithReference(reference) {
                 referenceOutput.insertAdjacentHTML('afterbegin', html);
             }
         }
+
+        if (reference.listTemplate) {
+            templateAsListBtn.style.display = "block";
+            listTemplate = reference.listTemplate;
+        }
     }
     $('#modalFilterHelper').modal();
 }
 
 
 // Add reference from modal to editor area
-function addReferenceToEditor() {
-    const statement = template;
+function addReferenceToEditor(isAsList) {
+    const statement = isAsList ? listTemplate : template;
     const selection = editor.getSelection();
 
     if (selection.length > 0) {
