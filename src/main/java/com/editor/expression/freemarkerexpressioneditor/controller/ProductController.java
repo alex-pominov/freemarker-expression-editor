@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("product")
 public class ProductController {
     private final ProductService productService;
 
@@ -23,12 +22,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-//    @GetMapping("{id}")
-//    public Map<String, Object> getProductByID(@PathVariable Long id) {
-//        return productService.getProductById(id);
-//    }
-
-    @GetMapping
+    @GetMapping("products")
     public List<Product> getProducts() {
         return productService.getProducts();
     }

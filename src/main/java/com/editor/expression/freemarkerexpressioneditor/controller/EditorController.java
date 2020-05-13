@@ -1,10 +1,13 @@
 package com.editor.expression.freemarkerexpressioneditor.controller;
 
-import com.editor.expression.freemarkerexpressioneditor.domain.Snippet;
+import com.editor.expression.freemarkerexpressioneditor.domain.Editor;
 import com.editor.expression.freemarkerexpressioneditor.domain.Variables;
 import com.editor.expression.freemarkerexpressioneditor.domain.Product;
+import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
+import com.editor.expression.freemarkerexpressioneditor.service.ClassificationGrpsService;
 import com.editor.expression.freemarkerexpressioneditor.service.ProductService;
-import com.editor.expression.freemarkerexpressioneditor.service.SnippetService;
+import com.editor.expression.freemarkerexpressioneditor.service.EditorService;
+import com.editor.expression.freemarkerexpressioneditor.service.VariableService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -26,34 +29,39 @@ public class EditorController {
 
     private Product product;
     private List<Variables> variables;
+    private List<ClassificationGroup> classificationGroups;
 
-    private final SnippetService snippetService;
+    private final EditorService editorService;
     private final ProductService productService;
+    private final ClassificationGrpsService classificationGrps;
+    private final VariableService variableService;
 
     @Autowired
-    public EditorController(SnippetService snippetService, ProductService productService) {
-        this.snippetService = snippetService;
+    public EditorController(EditorService editorService, ProductService productService,
+                            ClassificationGrpsService classificationGrps, VariableService variableService
+    ) {
+        this.editorService = editorService;
         this.productService = productService;
+        this.classificationGrps = classificationGrps;
+        this.variableService = variableService;
     }
 
     @GetMapping("{id}")
     public String expressionEditor(@PathVariable Long id) {
         this.product = productService.getProduct(id);
+        this.classificationGroups = classificationGrps.getClassificationGroup();
 
-        variables = new ArrayList<>();
-
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.convertValue(product, JsonNode.class);
-        process("product", root, "", false);
+        this.variables = variableService.getVariables(this.product, this.classificationGroups);
 
         return "index";
     }
 
     @RequestMapping(value = "/processTemplate", method = RequestMethod.GET)
-    public ResponseEntity<String> processTemplate(@ModelAttribute Snippet snippet) {
+    public ResponseEntity<String> processTemplate(@ModelAttribute Editor editor) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("product", this.product);
-        return snippetService.processTemplate(snippet, dataModel);
+        dataModel.put("classificationGroup", this.classificationGroups);
+        return editorService.processTemplate(editor, dataModel);
     }
 
     @RequestMapping(value = "/freemarkerReferences", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,35 +84,5 @@ public class EditorController {
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private void process(String prefix, JsonNode currentNode, String subcategory, Boolean isIterable) {
-        currentNode.fields().forEachRemaining(entry -> {
-            if (entry.getValue().isArray() && subcategory.equals("")) {
-                getArrayNodes(prefix + "." + entry.getKey(), entry.getValue(), entry.getKey());
-            }
-        });
-
-        currentNode.fields().forEachRemaining(field -> {
-                    variables.add(new Variables(
-                            field.getKey(), // variableName
-                            "Product",
-                            subcategory, // subcategory
-                            prefix + "." + field.getKey(), // documentation
-                            field.getValue().isArray(), // isComplexType
-                            isIterable || field.getValue().isArray(), // isList
-                            prefix + "." + field.getKey(), // template
-                            prefix
-                    ));
-                }
-        );
-    }
-
-    private void getArrayNodes(String prefix, JsonNode currentNode, String subcategory) {
-        ArrayNode arrayNode = (ArrayNode) currentNode;
-        Iterator<JsonNode> node = arrayNode.elements();
-
-        currentNode.fields().forEachRemaining(field -> System.out.println(field.getKey()));
-        process(prefix, node.next(), subcategory, true);
     }
 }

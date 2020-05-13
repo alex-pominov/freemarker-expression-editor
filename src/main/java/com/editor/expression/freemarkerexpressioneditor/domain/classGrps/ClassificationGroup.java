@@ -1,16 +1,34 @@
 package com.editor.expression.freemarkerexpressioneditor.domain.classGrps;
 
-import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.List;
-
+@Table("ClassificationGroups")
 public class ClassificationGroup {
-    private String classGroupName;
-    private List<Classification> classifications;
+    private @Column("classGroupId") Long classGroupId;
+    private @Column("parentId") Long parentId;
+    private @Column("classGroupName") String classGroupName;
 
-    public ClassificationGroup(String classGroupName, List<Classification> classifications) {
+    public ClassificationGroup(Long classGroupId, Long parentId, String classGroupName) {
+        this.classGroupId = classGroupId;
+        this.parentId = parentId;
         this.classGroupName = classGroupName;
-        this.classifications = classifications;
+    }
+
+    public Long getClassGroupId() {
+        return classGroupId;
+    }
+
+    public void setClassGroupId(Long classGroupId) {
+        this.classGroupId = classGroupId;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getClassGroupName() {
@@ -19,21 +37,5 @@ public class ClassificationGroup {
 
     public void setClassGroupName(String classGroupName) {
         this.classGroupName = classGroupName;
-    }
-
-    public List<Classification> getClassifications() {
-        return classifications;
-    }
-
-    public void setClassifications(List<Classification> classifications) {
-        this.classifications = classifications;
-    }
-
-    @Override
-    public String toString() {
-        return "\n\tClassificationGroup {\n" +
-                "\t\tclassGroupName = " + classGroupName + ",\n" +
-                "\t\tclassifications = " + classifications + ",\n" +
-                "   }";
     }
 }

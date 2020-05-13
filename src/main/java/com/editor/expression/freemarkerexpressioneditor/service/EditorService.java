@@ -1,7 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor.service;
 
-import com.editor.expression.freemarkerexpressioneditor.domain.Product;
-import com.editor.expression.freemarkerexpressioneditor.domain.Snippet;
+import com.editor.expression.freemarkerexpressioneditor.domain.Editor;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
@@ -23,31 +22,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SnippetService {
+public class EditorService {
 
-    public ResponseEntity<String> processTemplate(Snippet snippet, Map<String, Object> dataModel) {
+    public ResponseEntity<String> processTemplate(Editor editor, Map<String, Object> dataModel) {
         String result = "";
 
         // Set headers to required content-type
         final HttpHeaders httpHeaders= new HttpHeaders();
-        httpHeaders.setContentType(MediaType.valueOf(snippet.getResultType()));
+        httpHeaders.setContentType(MediaType.valueOf(editor.getResultType()));
 
         try {
             // Perform evaluate FM expression if checkbox checked
-            if (snippet.isPerformEvaluation()) {
-                result = evaluateFreemarkerTemplate(snippet.getSnippetText(), dataModel);
+            if (editor.isPerformEvaluation()) {
+                result = evaluateFreemarkerTemplate(editor.getSnippetText(), dataModel);
             } else {
                 // Just get template text without processing
-                result = snippet.getSnippetText();
+                result = editor.getSnippetText();
             }
 
             // Evaluate markdown template if is it format type
-            if (snippet.getFormatType().equals("markdown") && !snippet.getResultType().equals("text/plain")) {
+            if (editor.getFormatType().equals("markdown") && !editor.getResultType().equals("text/plain")) {
                 result = evaluateMarkdownTemplate(result);
             }
 
             // Evaluate html fragment if content-type is html
-            if (snippet.getResultType().equals("text/html")) {
+            if (editor.getResultType().equals("text/html")) {
                 Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
                 Resource path = new DefaultResourceLoader().getResource("/templates/WrapperTemplates");
                 cfg.setDirectoryForTemplateLoading(path.getFile());

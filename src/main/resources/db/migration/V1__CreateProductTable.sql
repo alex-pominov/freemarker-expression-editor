@@ -24,19 +24,3 @@ CREATE TABLE IF NOT EXISTS price (
     valid_from_quantity float,
     contract_id integer references contract(id)
 );
-
-
-CREATE TABLE IF NOT EXISTS classification_group (
-    id serial primary key,
-    product integer references product(id),
-    product_key integer,
-
-    class_group_name text
-);
-
-CREATE TABLE IF NOT EXISTS classification (
-    id serial primary key,
-    classification_group integer references classification_group(id),
-    classification_group_key integer,
-    classification_name text
-);

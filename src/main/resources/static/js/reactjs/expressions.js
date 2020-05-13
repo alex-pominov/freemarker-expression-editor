@@ -19,15 +19,15 @@ const expressionsBar = () => {
   const expressions = (object) => {
     if (object) {
       // Unique types of expressions
-      const types = [...new Set(Object.values(object).map((v) => v.type))];
+      const groups = [...new Set(Object.values(object).map((v) => v.groupName))];
 
       // Render accordion for each of type
-      return types.map((type) => {
+      return groups.map((group) => {
         const subcategories = [
           ...new Set(
             Object.values(object)
-              .filter((v) => v.type === type)
-              .map((v) => v.subcategory)
+              .filter((v) => v.groupName === group)
+              .map((v) => v.parentPath)
               .filter(Boolean)
           ),
         ];
@@ -35,7 +35,7 @@ const expressionsBar = () => {
         let options = [
           ...new Set(
             Object.values(object)
-              .filter((v) => v.type === type && !v.subcategory)
+              .filter((v) => v.groupName === group && !v.parentPath)
               .map((v) => v.name)
           ),
         ];
@@ -43,14 +43,14 @@ const expressionsBar = () => {
 
         // Create new variable with type without space
         // to avoid naming error during render accodrion
-        const typeWithoutSpase = type.replace(/ /g, "");
+        const typeWithoutSpace = group.replace(/ /g, "");
 
         return renderAccordion(
           "expressionsTypes",
           options,
           subcategories,
-          type,
-          typeWithoutSpase
+          group,
+          typeWithoutSpace
         );
       });
     }
@@ -60,33 +60,33 @@ const expressionsBar = () => {
     dataParent,
     options,
     categories,
-    type,
-    typeWithoutSpase
+    group,
+    typeWithoutSpace
   ) => (
     <div className="card">
       <div
         className={`card-header expressions--${dataParent}`}
-        id={`heading${typeWithoutSpase}`}
+        id={`heading${typeWithoutSpace}`}
       >
         <h2 className="mb-0">
           <button
-            className={`button collapsed ${typeWithoutSpase}`}
+            className={`button collapsed ${typeWithoutSpace}`}
             type="button"
             data-toggle="collapse"
-            data-target={`#${typeWithoutSpase}`}
+            data-target={`#${typeWithoutSpace}`}
             aria-expanded={false}
-            aria-controls={`${typeWithoutSpase}`}
+            aria-controls={`${typeWithoutSpace}`}
           >
-            {type}
+            {group}
           </button>
           {dataParent === "categories" && <i class="arrow"></i>}
         </h2>
       </div>
 
       <div
-        id={`${typeWithoutSpase}`}
+        id={`${typeWithoutSpace}`}
         className="collapse"
-        aria-labelledby={`heading${typeWithoutSpase}`}
+        aria-labelledby={`heading${typeWithoutSpace}`}
         data-parent={`#${dataParent}`}
       >
         <div className={`card-body expressions--${dataParent}__menu`}>
@@ -110,7 +110,6 @@ const expressionsBar = () => {
       ));
     } else {
       const opts = options.filter(x => !categories.includes(x));
-      console.log(opts)
       // if type has subcategories than render it as accordion
       return (
         <React.Fragment>
@@ -122,15 +121,15 @@ const expressionsBar = () => {
             </li>
           ))}
           <div class="accordion" id="categories">
-            {categories.map((type) =>
+            {categories.map((group) =>
               renderAccordion(
                 "categories",
                 (options = Object.values(references)
-                  .filter((v) => v.subcategory === type)
+                  .filter((v) => v.parentPath === group)
                   .map((item) => item.name)),
                 [],
-                type,
-                type.replace(/ /g, "")
+                group,
+                group.replace(/ /g, "")
               )
             )}
           </div>

@@ -1,6 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor.domain;
 
-public class Snippet {
+public class Editor {
     private String snippetText;
     private String formatType;
     private String resultType;
