@@ -17,7 +17,8 @@ function openModalWithReference(reference) {
 
     if (!reference.length) {
         template = reference.template;
-        document.getElementById("referenceName").innerHTML = reference.name;
+        const name = reference.parentPath ? reference.parentPath + ": " +  reference.name : reference.name;
+        document.getElementById("referenceName").innerHTML = name;
 
         if (reference.documentation) {
             const html = `<h4>Description:</h4><p>${reference.documentation}</p>`;

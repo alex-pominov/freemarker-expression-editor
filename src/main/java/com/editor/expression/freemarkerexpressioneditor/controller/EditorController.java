@@ -1,13 +1,8 @@
 package com.editor.expression.freemarkerexpressioneditor.controller;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Editor;
-import com.editor.expression.freemarkerexpressioneditor.domain.Variables;
-import com.editor.expression.freemarkerexpressioneditor.domain.Product;
-import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
-import com.editor.expression.freemarkerexpressioneditor.service.ClassificationGrpsService;
-import com.editor.expression.freemarkerexpressioneditor.service.ProductService;
-import com.editor.expression.freemarkerexpressioneditor.service.EditorService;
-import com.editor.expression.freemarkerexpressioneditor.service.VariableService;
+import com.editor.expression.freemarkerexpressioneditor.domain.Variable;
+import com.editor.expression.freemarkerexpressioneditor.service.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -27,41 +22,45 @@ import java.util.*;
 @Controller
 public class EditorController {
 
-    private Product product;
-    private List<Variables> variables;
-    private List<ClassificationGroup> classificationGroups;
+    private List<Variable> variables;
+    private Map<String, Object> dataModel;
 
     private final EditorService editorService;
     private final ProductService productService;
     private final ClassificationGrpsService classificationGrps;
     private final VariableService variableService;
+    private final ClassificationService classificationService;
+    private final CurrencyService currencyService;
+
 
     @Autowired
     public EditorController(EditorService editorService, ProductService productService,
-                            ClassificationGrpsService classificationGrps, VariableService variableService
+                            ClassificationGrpsService classificationGrps, VariableService variableService,
+                            ClassificationService classificationService, CurrencyService currencyService
     ) {
         this.editorService = editorService;
         this.productService = productService;
         this.classificationGrps = classificationGrps;
         this.variableService = variableService;
+        this.classificationService = classificationService;
+        this.currencyService = currencyService;
     }
 
     @GetMapping("{id}")
     public String expressionEditor(@PathVariable Long id) {
-        this.product = productService.getProduct(id);
-        this.classificationGroups = classificationGrps.getClassificationGroup();
-
-        this.variables = variableService.getVariables(this.product, this.classificationGroups);
+        dataModel = new HashMap<>();
+        dataModel.put("product", productService.getProduct(id));
+        dataModel.put("currencies", currencyService.getAllCurrency());
+//        dataModel.put("classificationGroup", classificationGrps.getClassificationGroup());
+        dataModel.put("classifications", classificationService.getClassificationGroup());
+        this.variables = variableService.getVariables(dataModel);
 
         return "index";
     }
 
     @RequestMapping(value = "/processTemplate", method = RequestMethod.GET)
     public ResponseEntity<String> processTemplate(@ModelAttribute Editor editor) {
-        Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put("product", this.product);
-        dataModel.put("classificationGroup", this.classificationGroups);
-        return editorService.processTemplate(editor, dataModel);
+        return editorService.processTemplate(editor, this.dataModel);
     }
 
     @RequestMapping(value = "/freemarkerReferences", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

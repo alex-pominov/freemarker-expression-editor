@@ -99,7 +99,7 @@
     }
 
     &__menu {
-      padding: 5px 5px 5px 25px !important;
+      padding: 5px 0 5px 25px !important;
       background: #606482;
 
       ul li {
@@ -142,3 +142,11 @@
   }
 }
 
+li .isVariableUsed {
+  display: none;
+  padding: 1px 15px;
+  font-size: 10px;
+  color: #0fc61b;
+  margin-right: 9px;
+  text-transform: uppercase;
+}

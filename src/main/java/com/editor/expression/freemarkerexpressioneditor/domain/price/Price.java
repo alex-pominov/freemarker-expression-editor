@@ -1,10 +1,14 @@
 package com.editor.expression.freemarkerexpressioneditor.domain.price;
 
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("price")
 public class Price {
-    private Long contractId;
-    private Float price;
-    private int validFromQuantity;
-    private Long currencyId;
+    private @Column("currencyId") Long contractId;
+    private @Column("price") Float price;
+    private @Column("validFromQuantity") int validFromQuantity;
+    private @Column("contractId") Long currencyId;
 
     public Price(Long contractId, Float price, int validFromQuantity, Long currencyId) {
         this.contractId = contractId;

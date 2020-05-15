@@ -57,9 +57,10 @@ public class FreemarkerExpressionEditorApplication implements CommandLineRunner 
 //        currencyRepository.save(currency2);
 //        currencyRepository.save(currency3);
 //
+//
 //        List<Price> prices = new ArrayList<>();
 //        prices.add(new Price(1L, 1500f, 15, 1L));
-//        prices.add(new Price(2L, 2000f, 6, 3L));
+//        prices.add(new Price(2L, 2000f, 6, 2L));
 //
 //        Product product = new Product(null, "Xiaomi S4", prices);
 //        Product product2 = new Product(null, "Tables", prices);

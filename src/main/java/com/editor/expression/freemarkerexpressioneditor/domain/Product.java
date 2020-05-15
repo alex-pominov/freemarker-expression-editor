@@ -5,6 +5,8 @@ import com.editor.expression.freemarkerexpressioneditor.domain.domainRefs.ClassG
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,12 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@XmlRootElement(name="Product", namespace="Product")
-@XmlAccessorType(XmlAccessType.FIELD)
+@Table("product")
 public class Product {
     @Id
     private Long id;
-    private String shortDesc; // TODO multiple lang
+    private @Column("shortDesc") String shortDesc; // TODO multiple lang
     private List<Price> prices;
     private Set<ClassGroupsRefs> classGroups = new HashSet<>();
 
@@ -46,7 +47,6 @@ public class Product {
                 '}';
     }
 
-    @XmlAttribute
     public Long getId() {
         return id;
     }
@@ -55,7 +55,6 @@ public class Product {
         this.id = id;
     }
 
-    @XmlAttribute
     public String getShortDesc() {
         return shortDesc;
     }
@@ -64,7 +63,6 @@ public class Product {
         this.shortDesc = shortDesc;
     }
 
-    @XmlAttribute
     public List<Price> getPrices() {
         return prices;
     }

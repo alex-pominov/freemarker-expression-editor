@@ -11,8 +11,9 @@ const expressionsBar = () => {
       .then((refs) => setReferences(refs.flat()));
   }, []);
 
-  const onModalOpenHandler = (itemName) => {
-    const obj = {...references.filter((item) => item.name === itemName)[0]};
+  const onModalOpenHandler = (group, itemName) => {
+    const obj = {...references.filter((item) => (item.groupName === group  || item.parentPath === group)
+        && item.name === itemName)[0]};
     return openModalWithReference(obj);
   };
 
@@ -68,7 +69,7 @@ const expressionsBar = () => {
         className={`card-header expressions--${dataParent}`}
         id={`heading${typeWithoutSpace}`}
       >
-        <h2 className="mb-0">
+        <h2 className="mb-0" group={group}>
           <button
             className={`button collapsed ${typeWithoutSpace}`}
             type="button"
@@ -91,33 +92,35 @@ const expressionsBar = () => {
       >
         <div className={`card-body expressions--${dataParent}__menu`}>
           <ul className="nav flex-column">
-            {renderAccordionOptions(options, categories)}
+            {renderAccordionOptions(group, options, categories)}
           </ul>
         </div>
       </div>
     </div>
   );
 
-  const renderAccordionOptions = (options, categories) => {
+  const renderAccordionOptions = (group, options, categories) => {
     if (!categories.length) {
       // if no subcategories than render as a list
       return options.map((item) => (
-        <li className="nav-item">
-          <button type="button" onClick={() => onModalOpenHandler(item)}>
+        <li className="nav-item row m-0 justify-content-between" group={group + '.' + item}>
+          <button type="button" onClick={() => onModalOpenHandler(group, item)}>
             {item}
           </button>
+          <span class="isVariableUsed">used</span>
         </li>
       ));
     } else {
-      const opts = options.filter(x => !categories.includes(x));
+      const opts = options.filter(option => !categories.includes(option));
       // if type has subcategories than render it as accordion
       return (
         <React.Fragment>
           {opts.length !== 0 && opts.map((item) => (
-            <li className="nav-item">
-              <button type="button" onClick={() => onModalOpenHandler(item)}>
+            <li className="nav-item row m-0 justify-content-between" group={group + '.' + item}>
+              <button type="button" onClick={() => onModalOpenHandler(group, item)}>
                 {item}
               </button>
+              <span class="isVariableUsed">used</span>
             </li>
           ))}
           <div class="accordion" id="categories">

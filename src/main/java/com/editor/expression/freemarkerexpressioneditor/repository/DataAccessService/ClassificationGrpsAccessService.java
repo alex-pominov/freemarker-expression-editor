@@ -1,18 +1,12 @@
-package com.editor.expression.freemarkerexpressioneditor.repository;
+package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService;
 
-import com.editor.expression.freemarkerexpressioneditor.domain.Product;
-import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
-import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ClassificationGrpsAccessService {

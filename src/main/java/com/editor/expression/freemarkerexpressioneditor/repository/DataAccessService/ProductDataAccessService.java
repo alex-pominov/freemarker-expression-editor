@@ -1,4 +1,4 @@
-package com.editor.expression.freemarkerexpressioneditor.repository;
+package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
@@ -36,21 +36,21 @@ public class ProductDataAccessService {
     private RowMapper<Product> mapProductFromDb() {
         return (resultSet, i) -> {
             Long productId = Long.parseLong(resultSet.getString("id"));
-            String shortDesc = resultSet.getString("short_desc");
+            String shortDesc = resultSet.getString("shortDesc");
 
             // Price List
             String priceSql = "" +
-                    "select price.contract_id, price.price, price.valid_from_quantity, price.currency_id from price " +
+                    "select price.contractid, price.price, price.validfromquantity, price.currencyid from price " +
                     "WHERE price.product = " + productId;
 
             List<Price> prices = new ArrayList<>();
             List<Map<String, Object>> priceRows = jdbcTemplate.queryForList(priceSql);
             for (Map<String, Object> row : priceRows) {
                 Price price = new Price(
-                        Long.parseLong(row.get("contract_id").toString()),
+                        Long.parseLong(row.get("currencyId").toString()),
                         Float.parseFloat(row.get("price").toString()),
-                        (int) Double.parseDouble(row.get("valid_from_quantity").toString()),
-                        Long.parseLong(row.get("contract_id").toString())
+                        (int) Double.parseDouble(row.get("validFromQuantity").toString()),
+                        Long.parseLong(row.get("contractId").toString())
                 );
                 prices.add(price);
             }

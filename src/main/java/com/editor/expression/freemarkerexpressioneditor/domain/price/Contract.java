@@ -1,11 +1,14 @@
 package com.editor.expression.freemarkerexpressioneditor.domain.price;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("contract")
 public class Contract {
     @Id
     private Long id;
-    private String contractDescription;
+    private @Column("description") String contractDescription;
 
     public Contract(Long id, String contractDescription) {
         this.id = id;

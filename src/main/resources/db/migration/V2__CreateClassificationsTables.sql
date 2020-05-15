@@ -9,11 +9,13 @@ CREATE TABLE IF NOT EXISTS classificationGroups (
     classGroupId serial,
     parentId integer,
     classGroupName text,
-    PRIMARY KEY (classification, classGroupId)
+    CONSTRAINT id PRIMARY KEY (classification, classgroupid)
 );
 
 CREATE TABLE IF NOT EXISTS product2classgrps (
     product integer,
     classificationGroups integer,
     PRIMARY KEY (product, classificationGroups)
-)
+);
+
+SELECT * FROM pg_indexes WHERE tablename = 'classificationGroups';
