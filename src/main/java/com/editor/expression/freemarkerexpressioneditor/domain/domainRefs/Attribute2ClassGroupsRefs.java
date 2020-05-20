@@ -3,11 +3,11 @@ package com.editor.expression.freemarkerexpressioneditor.domain.domainRefs;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("product2classgrps")
-public class ClassGroupsRefs {
+@Table("attribute2classgrps")
+public class Attribute2ClassGroupsRefs {
     private @Column("classificationgroups") Long classificationGroupId;
 
-    public ClassGroupsRefs(Long classificationGroupId) {
+    public Attribute2ClassGroupsRefs(Long classificationGroupId) {
         this.classificationGroupId = classificationGroupId;
     }
 }

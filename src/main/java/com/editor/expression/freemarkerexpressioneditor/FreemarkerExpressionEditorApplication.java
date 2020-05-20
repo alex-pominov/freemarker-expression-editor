@@ -1,5 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor;
 
+import com.editor.expression.freemarkerexpressioneditor.domain.Attribute;
 import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
@@ -26,19 +27,19 @@ public class FreemarkerExpressionEditorApplication implements CommandLineRunner 
     private final CurrencyRepository currencyRepository;
     private final ContractRepository contractRepository;
     private final ClassificationRepository classificationRepository;
-    private final ClassificationGroupRepository classificationGroupRepository;
+    private final AttributeRepository attributeRepository;
 
     @Autowired
     public FreemarkerExpressionEditorApplication(
             ProductRepository productRepository, CurrencyRepository currencyRepository,
             ContractRepository contractRepository, ClassificationRepository classificationRepository,
-            ClassificationGroupRepository classificationGroupRepository
+            ClassificationGroupRepository classificationGroupRepository, AttributeRepository attributeRepository
     ) {
         this.productRepository = productRepository;
         this.currencyRepository = currencyRepository;
         this.contractRepository = contractRepository;
         this.classificationRepository = classificationRepository;
-        this.classificationGroupRepository = classificationGroupRepository;
+        this.attributeRepository = attributeRepository;
     }
 
 
@@ -82,13 +83,24 @@ public class FreemarkerExpressionEditorApplication implements CommandLineRunner 
 //        amazonClassGrp.add(new ClassificationGroup(201L, 20L,"Phones"));
 //        amazonClassGrp.add(new ClassificationGroup(202L, 20L,"Tablets"));
 //
+//        product.addClassificationGroup(ebayClassGrp.get(0));
 //        product.addClassificationGroup(ebayClassGrp.get(1));
-//        product.addClassificationGroup(amazonClassGrp.get(2));
-//        product.addClassificationGroup(amazonClassGrp.get(3));
+//        product.addClassificationGroup(ebayClassGrp.get(2));
 //        productRepository.save(product);
 //
 //        classificationRepository.save(new Classification(null, "ebayClassification", ebayClassGrp));
 //        classificationRepository.save(new Classification(null, "amazonClassification", amazonClassGrp));
-
+//
+//        Attribute attribute = new Attribute(null, "int", false, "Color");
+//        attribute.addClassificationGroup(ebayClassGrp.get(0));
+//        attribute.addClassificationGroup(ebayClassGrp.get(1));
+//        attribute.addClassificationGroup(ebayClassGrp.get(2));
+//        attributeRepository.save(attribute);
+//
+//        Attribute attribute2 = new Attribute(null, "int", false, "Length");
+//        attribute2.addClassificationGroup(amazonClassGrp.get(0));
+//        attribute2.addClassificationGroup(amazonClassGrp.get(1));
+//        attribute2.addClassificationGroup(amazonClassGrp.get(2));
+//        attributeRepository.save(attribute2);
     }
 }

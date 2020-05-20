@@ -31,12 +31,15 @@ public class EditorController {
     private final VariableService variableService;
     private final ClassificationService classificationService;
     private final CurrencyService currencyService;
+    private final AttributeService attributeService;
+
 
 
     @Autowired
     public EditorController(EditorService editorService, ProductService productService,
                             ClassificationGrpsService classificationGrps, VariableService variableService,
-                            ClassificationService classificationService, CurrencyService currencyService
+                            ClassificationService classificationService, CurrencyService currencyService,
+                            AttributeService attributeService
     ) {
         this.editorService = editorService;
         this.productService = productService;
@@ -44,6 +47,7 @@ public class EditorController {
         this.variableService = variableService;
         this.classificationService = classificationService;
         this.currencyService = currencyService;
+        this.attributeService = attributeService;
     }
 
     @GetMapping("{id}")
@@ -51,6 +55,7 @@ public class EditorController {
         dataModel = new HashMap<>();
         dataModel.put("product", productService.getProduct(id));
         dataModel.put("currencies", currencyService.getAllCurrency());
+        dataModel.put("attributes", attributeService.getAllAttributes());
 //        dataModel.put("classificationGroup", classificationGrps.getClassificationGroup());
         dataModel.put("classifications", classificationService.getClassificationGroup());
         this.variables = variableService.getVariables(dataModel);

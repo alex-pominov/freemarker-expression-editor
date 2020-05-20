@@ -1,17 +1,13 @@
 package com.editor.expression.freemarkerexpressioneditor.domain;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
-import com.editor.expression.freemarkerexpressioneditor.domain.domainRefs.ClassGroupsRefs;
+import com.editor.expression.freemarkerexpressioneditor.domain.domainRefs.Product2ClassGroupsRefs;
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +18,7 @@ public class Product {
     private Long id;
     private @Column("shortDesc") String shortDesc; // TODO multiple lang
     private List<Price> prices;
-    private Set<ClassGroupsRefs> classGroups = new HashSet<>();
+    private Set<Product2ClassGroupsRefs> classGroups = new HashSet<>();
 
     public Product(
             @JsonProperty("id") Long id,
@@ -35,7 +31,7 @@ public class Product {
     }
 
     public void addClassificationGroup(ClassificationGroup classificationGroup) {
-        this.classGroups.add(new ClassGroupsRefs(classificationGroup.getClassGroupId()));
+        this.classGroups.add(new Product2ClassGroupsRefs(classificationGroup.getClassGroupId()));
     }
 
     @Override

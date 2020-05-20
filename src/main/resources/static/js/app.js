@@ -112,20 +112,19 @@ function debounce(func, wait, immediate) {
   };
 };
 
-
 editor.on('change', function () {
   const snippetCode = editor.getValue();
-  const regex = /<#list([\s\S\n]*?)(?=<\/#list)/mg;  // Alternative: <#list([\s\S\n]*?)(?=<#list|<\/#list)
-  const result = snippetCode.match(regex);
+
   let listVariables = [];
   try {
+    const result = snippetCode.match(/<#list([\s\S\n]*?)(?=<\/#list)/mg);
     listVariables = new Set(result.map(el => {
-      const parentNode = el.match(/[A-z]+?(?=\sas)/mg);
+      const parentNode = el.match(/[A-z]+?(?=\sas)/gm);
       const childNode = el.match(/\w+(?=})/gm);
       return parentNode.map(parent => {
         return childNode.map(child => parent + '.' + child);
       })
-    }).flat(3));
+    }).flat(5));
   } catch (e) {}
 
   let simpleVariables = [];
@@ -133,19 +132,21 @@ editor.on('change', function () {
     simpleVariables = snippetCode.match(/\w+\.\w+(?=})/gm);
   } catch (e) {}
 
-  let moreSimpleVariables = [];
+  let arrayVariables = [];
   try {
-    moreSimpleVariables = snippetCode.match(/\w+\[\w+\]\.\w+(?=})/gm)
+    arrayVariables = snippetCode.match(/\w+\[\w+\]\.\w+(?=})/gm)
       .map(el => el.replace(/\[(.+?)]/gm, ''));
   } catch (e) {}
 
   const variables = [
-    ...listVariables,
-    ...simpleVariables,
-    ...moreSimpleVariables
-  ].flat(5);
+      ...listVariables,
+    simpleVariables,
+    arrayVariables
+  ].flat();
+
   markVariableAsUsed(variables);
 });
+
 
 const markVariableAsUsed = (variables) => {
   document.querySelectorAll(`[group] > span`).forEach(node => node.style.display = 'none');

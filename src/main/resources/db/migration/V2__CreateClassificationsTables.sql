@@ -17,5 +17,3 @@ CREATE TABLE IF NOT EXISTS product2classgrps (
     classificationGroups integer,
     PRIMARY KEY (product, classificationGroups)
 );
-
-SELECT * FROM pg_indexes WHERE tablename = 'classificationGroups';
