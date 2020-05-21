@@ -110,44 +110,93 @@ function debounce(func, wait, immediate) {
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
-};
+}
 
-editor.on('change', function () {
-  const snippetCode = editor.getValue();
-
+// Function to find all variables was used in editor via regex
+const findUsedVariables = () => {
   let listVariables = [];
-  try {
-    const result = snippetCode.match(/<#list([\s\S\n]*?)(?=<\/#list)/mg);
-    listVariables = new Set(result.map(el => {
-      const parentNode = el.match(/[A-z]+?(?=\sas)/gm);
-      const childNode = el.match(/\w+(?=})/gm);
-      return parentNode.map(parent => {
-        return childNode.map(child => parent + '.' + child);
-      })
-    }).flat(5));
-  } catch (e) {}
+  let curLine = 0;
+  const numOfLines = editor.lineCount();
 
-  let simpleVariables = [];
-  try {
-    simpleVariables = snippetCode.match(/\w+\.\w+(?=})/gm);
-  } catch (e) {}
+  // Iterate over lines to find Lists and Variables
+  while (curLine < numOfLines) {
+    const ch = editor.doc.getLine(curLine).ch;
+    const stringToTest = editor.doc.getLine(curLine).substr(0, ch);
+    const lineHasListIterator = /<#list/gm.test(stringToTest);
+    const hasInlineVariable = /[\w\s\[\].]+(?=})/gm.test(stringToTest);
 
-  let arrayVariables = [];
-  try {
-    arrayVariables = snippetCode.match(/\w+\[\w+\]\.\w+(?=})/gm)
-      .map(el => el.replace(/\[(.+?)]/gm, ''));
-  } catch (e) {}
+    // If line has <#list ...> iterator than map over list
+    // to get all used variables from this collection
+    if (lineHasListIterator) {
+      const collectionName = stringToTest.match(/[A-z]+?(?=\sas)/g)[0];
+      const iteratorName = stringToTest.match(/\w+(?=>)/g)[0];
+      const collectionVariables = findCollectionVariables(collectionName, curLine, iteratorName);
+      listVariables = listVariables.concat(collectionVariables.variables);
+
+      // Mapping over variables assigned via brackets - ${...}
+    } else if (hasInlineVariable) {
+      let variable = stringToTest.match(/[\w\[\].]+/g)[0];
+      // Split a row for 4 group
+      // eg: classifications[1].classificationGroups[1].classGroupId
+      // 1. classificationGroups[1].classGroupId
+      // 2. classificationGroups
+      // 3. [1]
+      // 4. classGroupId
+      variable = /(\w+)(\[\w+]|).(\w+$)/gm.exec(variable);
+      // combine 1 and 3 group and push to variables
+      // eg. classificationGroups.classGroupId
+      listVariables.push(variable[1] + "." + variable[3]);
+    }
+
+    curLine++;
+  }
 
   const variables = [
       ...listVariables,
-    simpleVariables,
-    arrayVariables
   ].flat();
 
   markVariableAsUsed(variables);
-});
+};
+
+editor.on('change', findUsedVariables);
 
 
+// Find Variables in List collections <#list ...> ... </#list>
+// eg. <#list attributes as item> ${item.name} </#list>
+//     should parse attributes.name from example below
+const findCollectionVariables = (collectionName, curLine, iteratorName) => {
+  let variables = [];
+  let line = curLine + 1;
+  const re = new RegExp(`{${iteratorName}`,"gm");
+
+  while (true) {
+    const lineStr = editor.doc.getLine(line).ch;
+    const stringToTest = editor.doc.getLine(line).substr(0, lineStr);
+    const lineHasNestedIterator = /<#list/gm.test(stringToTest);
+    const hasCloseTag = /<\/#list/gm.test(stringToTest);
+
+    if (re.test(stringToTest)) {
+      variables.push(collectionName + "." + stringToTest.match(/\b\w+(?=})\b/gm));
+      re.test(stringToTest);
+    }
+
+    if (hasCloseTag) {
+      return {variables: variables, line: line};
+
+      // If List has nested Lists they also could use variables of parent List
+      // we call recursive function to find variables inside nested Lists
+    } else if (lineHasNestedIterator) {
+      const collectionVariables = findCollectionVariables(collectionName, line, iteratorName);
+      variables = variables.concat(collectionVariables.variables);
+      // Skip nested List by assigning line variable to continue mapping
+      // Sometimes variables could be assigned after nested Lists
+      line = collectionVariables.line;
+    }
+  line++;
+  }
+}
+
+// Iterating over attributes and mark variables as USED
 const markVariableAsUsed = (variables) => {
   document.querySelectorAll(`[group] > span`).forEach(node => node.style.display = 'none');
 

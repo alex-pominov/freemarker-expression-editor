@@ -112,7 +112,7 @@ const skipListIterator = (curLine) => {
     const hasCloseTag = /<\/#list/gm.test(stringToTest);
     line--;
     if (hasCloseTag) {
-      line = skipEditorLines(line);
+      line = skipListIterator(line);
     } else if (lineHasListIterator) {
         return line;
     }
