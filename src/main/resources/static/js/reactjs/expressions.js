@@ -1,8 +1,8 @@
 const e = React.createElement;
+const {Accordion, Card, useAccordionToggle} = ReactBootstrap;
 
 const expressionsBar = () => {
   const [references, setReferences] = React.useState(null);
-  console.log(references);
 
   // Fetch references from server
   React.useEffect(() => {
@@ -12,19 +12,21 @@ const expressionsBar = () => {
   }, []);
 
   const onModalOpenHandler = (group, itemName) => {
-    const obj = {...references.filter((item) => (item.groupName === group  || item.parentPath === group)
-        && item.name === itemName)[0]};
+    const obj = {
+      ...references.filter((item) => (item.groupName === group || item.parentPath === group)
+        && item.name === itemName)[0]
+    };
     return openModalWithReference(obj);
   };
 
   const expressions = (object) => {
     if (object) {
       // Unique types of expressions
-      const groups = [...new Set(Object.values(object).map((v) => v.groupName))];
+      const groups = [...new Set(Object.values(object).map((v) => v.groupName))].filter(v => v !== "");
 
       // Render accordion for each of type
       return groups.map((group) => {
-        const subcategories = [
+        const categories = [
           ...new Set(
             Object.values(object)
               .filter((v) => v.groupName === group)
@@ -41,15 +43,14 @@ const expressionsBar = () => {
           ),
         ];
 
-
         // Create new variable with type without space
-        // to avoid naming error during render accodrion
+        // to avoid naming error during render accordion
         const typeWithoutSpace = group.replace(/ /g, "");
 
         return renderAccordion(
           "expressionsTypes",
           options,
-          subcategories,
+          categories,
           group,
           typeWithoutSpace
         );
@@ -64,39 +65,24 @@ const expressionsBar = () => {
     group,
     typeWithoutSpace
   ) => (
-    <div className="card">
-      <div
-        className={`card-header expressions--${dataParent}`}
-        id={`heading${typeWithoutSpace}`}
-      >
-        <h2 className="mb-0" group={group}>
-          <button
-            className={`button collapsed ${typeWithoutSpace}`}
-            type="button"
-            data-toggle="collapse"
-            data-target={`#${typeWithoutSpace}`}
-            aria-expanded={false}
-            aria-controls={`${typeWithoutSpace}`}
-          >
-            {group}
-          </button>
-          {dataParent === "categories" && <i class="arrow"></i>}
-        </h2>
-      </div>
-
-      <div
-        id={`${typeWithoutSpace}`}
-        className="collapse"
-        aria-labelledby={`heading${typeWithoutSpace}`}
-        data-parent={`#${dataParent}`}
-      >
-        <div className={`card-body expressions--${dataParent}__menu`}>
+    <Card>
+      <Card.Header className={`expressions--${dataParent}`}>
+        <CustomToggle
+          selector={typeWithoutSpace}
+          eventKey={typeWithoutSpace}
+        >
+          {group}
+        </CustomToggle>
+        {dataParent === "categories" && <i class="arrow"></i>}
+      </Card.Header>
+      <Accordion.Collapse eventKey={typeWithoutSpace} className="collapsed">
+        <Card.Body className={`expressions--${dataParent}__menu`}>
           <ul className="nav flex-column">
             {renderAccordionOptions(group, options, categories)}
           </ul>
-        </div>
-      </div>
-    </div>
+        </Card.Body>
+      </Accordion.Collapse>
+    </Card>
   );
 
   const renderAccordionOptions = (group, options, categories) => {
@@ -111,8 +97,8 @@ const expressionsBar = () => {
         </li>
       ));
     } else {
-      const opts = options.filter(option => !categories.includes(option));
       // if type has subcategories than render it as accordion
+      const opts = options.filter(option => !categories.includes(option));
       return (
         <React.Fragment>
           {opts.length !== 0 && opts.map((item) => (
@@ -123,19 +109,26 @@ const expressionsBar = () => {
               <span class="isVariableUsed">used</span>
             </li>
           ))}
-          <div class="accordion" id="categories">
+          <Accordion>
             {categories.map((group) =>
               renderAccordion(
                 "categories",
                 (options = Object.values(references)
                   .filter((v) => v.parentPath === group)
                   .map((item) => item.name)),
-                [],
+                [
+                  ...new Set(
+                    Object.values(references)
+                      .filter((v) => v.subcategory === group)
+                      .map((v) => v.parentPath)
+                      .filter(Boolean)
+                  ),
+                ],
                 group,
                 group.replace(/ /g, "")
               )
             )}
-          </div>
+          </Accordion>
         </React.Fragment>
       );
     }
@@ -144,12 +137,30 @@ const expressionsBar = () => {
   return (
     <React.Fragment>
       <h3 className="expressions--header">Expressions</h3>
-      <div class="accordion" id="expressionsTypes">
+      <Accordion>
         {expressions(references)}
-      </div>
+      </Accordion>
     </React.Fragment>
   );
 };
+
+let activeKeys = [];
+function CustomToggle({children, eventKey, selector}) {
+  let isOpen = activeKeys.includes(eventKey);
+  const toggleAccordion = useAccordionToggle(eventKey, () => {
+    if (!isOpen) activeKeys = eventKey;
+  });
+  return (
+    <button
+      type="button"
+      className={`button ${selector} ${isOpen ? "expanded" : ""}`}
+      style={isOpen ? {color: '#EF7A57'} : null}
+      onClick={toggleAccordion}
+    >
+      {children}
+    </button>
+  );
+}
 
 const domContainer = document.querySelector("#expression-container");
 ReactDOM.render(e(expressionsBar), domContainer);

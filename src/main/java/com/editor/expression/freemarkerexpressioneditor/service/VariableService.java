@@ -52,8 +52,9 @@ public class VariableService {
             currentNode.fields().forEachRemaining(field -> {
                         Variable variable = new Variable();
                         variable.setName(field.getKey());
-                        variable.setGroupName(parentPath);
-                        variable.setParentPath(subcategory);
+                        variable.setGroupName(subcategory.isEmpty() ? "Variables" : "");
+                        variable.setParentPath(subcategory.isEmpty() ? parentPath : subcategory);
+                        variable.setSubcategory(subcategory.isEmpty() ? "" : parentPath);
                         variable.setParameters(!indexPrefix.isEmpty());
                         variable.setDocumentation(prefixed + "." + field.getKey());
                         variable.setComplexType(field.getValue().isArray());

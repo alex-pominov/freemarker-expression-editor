@@ -5,6 +5,7 @@ public class Variable {
     private String name;
     private String groupName;
     private String parentPath;
+    private String subcategory;
     private String documentation;
     private String parameters;
     private Boolean isComplexType;
@@ -110,5 +111,13 @@ public class Variable {
         } else {
             this.example = this.template;
         }
+    }
+
+    public String getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
     }
 }

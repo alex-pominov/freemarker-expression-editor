@@ -34,7 +34,6 @@ public class EditorController {
     private final AttributeService attributeService;
 
 
-
     @Autowired
     public EditorController(EditorService editorService, ProductService productService,
                             ClassificationGrpsService classificationGrps, VariableService variableService,
@@ -56,7 +55,6 @@ public class EditorController {
         dataModel.put("product", productService.getProduct(id));
         dataModel.put("currencies", currencyService.getAllCurrency());
         dataModel.put("attributes", attributeService.getAllAttributes());
-//        dataModel.put("classificationGroup", classificationGrps.getClassificationGroup());
         dataModel.put("classifications", classificationService.getClassificationGroup());
         this.variables = variableService.getVariables(dataModel);
 
