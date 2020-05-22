@@ -113,7 +113,7 @@ function debounce(func, wait, immediate) {
 }
 
 // Function to find all variables was used in editor via regex
-const findUsedVariables = () => {
+const findUsedVariables = debounce(function () {
   let listVariables = [];
   let curLine = 0;
   const numOfLines = editor.lineCount();
@@ -135,19 +135,20 @@ const findUsedVariables = () => {
 
       // Mapping over variables assigned via brackets - ${...}
     } else if (hasInlineVariable) {
-      let variable = stringToTest.match(/[\w\[\].]+/g)[0];
-      // Split a row for 4 group
-      // eg: classifications[1].classificationGroups[1].classGroupId
-      // 1. classificationGroups[1].classGroupId
-      // 2. classificationGroups
-      // 3. [1]
-      // 4. classGroupId
-      variable = /(\w+)(\[\w+]|).(\w+$)/gm.exec(variable);
-      // combine 1 and 3 group and push to variables
-      // eg. classificationGroups.classGroupId
-      listVariables.push(variable[1] + "." + variable[3]);
+      try {
+        let variable = stringToTest.match(/[\w\[\].]+/g)[0];
+        // Split a row for 4 group
+        // eg: classifications[1].classificationGroups[1].classGroupId
+        // 1. classificationGroups[1].classGroupId
+        // 2. classificationGroups
+        // 3. [1]
+        // 4. classGroupId
+        variable = /(\w+)(\[\w+]|).(\w+$)/gm.exec(variable);
+        // combine 1 and 3 group and push to variables
+        // eg. classificationGroups.classGroupId
+        listVariables.push(variable[1] + "." + variable[3]);
+      } catch (e) {}
     }
-
     curLine++;
   }
 
@@ -156,10 +157,9 @@ const findUsedVariables = () => {
   ].flat();
 
   markVariableAsUsed(variables);
-};
+}, 500);
 
 editor.on('change', findUsedVariables);
-
 
 // Find Variables in List collections <#list ...> ... </#list>
 // eg. <#list attributes as item> ${item.name} </#list>
