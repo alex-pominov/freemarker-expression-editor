@@ -6,7 +6,8 @@ import com.editor.expression.freemarkerexpressioneditor.service.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -16,35 +17,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 public class EditorController {
+    @Getter private final EditorService editorService;
+    @Getter private final ProductService productService;
+    @Getter private final VariableService variableService;
+    @Getter private final ClassificationService classificationService;
+    @Getter private final CurrencyService currencyService;
+    @Getter private final AttributeService attributeService;
 
     private List<Variable> variables;
     private Map<String, Object> dataModel;
-
-    private final EditorService editorService;
-    private final ProductService productService;
-    private final VariableService variableService;
-    private final ClassificationService classificationService;
-    private final CurrencyService currencyService;
-    private final AttributeService attributeService;
-
-
-    @Autowired
-    public EditorController(EditorService editorService, ProductService productService,
-                            VariableService variableService,
-                            ClassificationService classificationService, CurrencyService currencyService,
-                            AttributeService attributeService
-    ) {
-        this.editorService = editorService;
-        this.productService = productService;
-        this.variableService = variableService;
-        this.classificationService = classificationService;
-        this.currencyService = currencyService;
-        this.attributeService = attributeService;
-    }
 
     @GetMapping("{id}")
     public String expressionEditor(@PathVariable Long id) {

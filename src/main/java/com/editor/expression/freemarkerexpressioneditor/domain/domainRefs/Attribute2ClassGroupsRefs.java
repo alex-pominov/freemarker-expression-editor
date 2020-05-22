@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("attribute2classgrps")
 public class Attribute2ClassGroupsRefs {
-    private @Column("classificationgroups") Long classificationGroupId;
+    private @Column("classificationGroups") Long classificationGroupId;
 
     public Attribute2ClassGroupsRefs(Long classificationGroupId) {
         this.classificationGroupId = classificationGroupId;

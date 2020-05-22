@@ -2,20 +2,17 @@ package com.editor.expression.freemarkerexpressioneditor.service;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Currency;
 import com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService.CurrencyAccessService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CurrencyService {
+    @Getter private final CurrencyAccessService currencyAccessService;
 
-    private final CurrencyAccessService currencyAccessService;
-
-    @Autowired
-    public CurrencyService(CurrencyAccessService currencyAccessService) {
-        this.currencyAccessService = currencyAccessService;
-    }
     public List<Currency> getAllCurrency() {
         return currencyAccessService.getAllCurrency();
     }

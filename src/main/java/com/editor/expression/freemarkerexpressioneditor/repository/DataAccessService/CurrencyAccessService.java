@@ -1,7 +1,8 @@
 package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Currency;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -9,13 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class CurrencyAccessService {
-    private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public CurrencyAccessService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Getter private final JdbcTemplate jdbcTemplate;
 
     public List<Currency> getAllCurrency() {
         String sql = "select * from currency;";

@@ -2,22 +2,20 @@ package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessSe
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class ProductDataAccessService {
-
-    private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public ProductDataAccessService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Getter private final JdbcTemplate jdbcTemplate;
 
     public Product getProduct(Long id) {
         String sql = "select * from product WHERE id= ?";
@@ -52,7 +50,7 @@ public class ProductDataAccessService {
                 prices.add(price);
             }
 
-            return  new Product(productId, shortDesc, prices);
+            return new Product(productId, shortDesc, prices);
         };
     }
 }

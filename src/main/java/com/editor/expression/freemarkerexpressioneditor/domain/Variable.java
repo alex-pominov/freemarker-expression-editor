@@ -1,7 +1,13 @@
 package com.editor.expression.freemarkerexpressioneditor.domain;
 
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class Variable {
-    // JSON
     private String name;
     private String groupName;
     private String parentPath;
@@ -14,61 +20,6 @@ public class Variable {
     private String listTemplate;
     private String example;
 
-    public Variable() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public String getParentPath() {
-        return parentPath;
-    }
-
-    public String getDocumentation() {
-        return documentation;
-    }
-
-    public String getParameters() {
-        return parameters;
-    }
-
-    public Boolean getComplexType() {
-        return isComplexType;
-    }
-
-    public Boolean getList() {
-        return isList;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public String getListTemplate() {
-        return listTemplate;
-    }
-
-    public String getExample() {
-        return example;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public void setParentPath(String parentPath) {
-        this.parentPath = parentPath;
-    }
-
     public void setDocumentation(String variablePath) {
         this.documentation = "Expression to get <span><strong>" + this.name + "</strong></span> according to " +
                 "<span><em>" + variablePath + "</em></span>" + " path.";
@@ -78,14 +29,6 @@ public class Variable {
         if (isList) {
             this.parameters = "<ul><li><span>Index</span> : number of item in collection.</li></ul>";
         }
-    }
-
-    public void setComplexType(Boolean complexType) {
-        isComplexType = complexType;
-    }
-
-    public void setList(Boolean list) {
-        isList = list;
     }
 
     public void setTemplate(String prefix) {
@@ -111,13 +54,5 @@ public class Variable {
         } else {
             this.example = this.template;
         }
-    }
-
-    public String getSubcategory() {
-        return subcategory;
-    }
-
-    public void setSubcategory(String subcategory) {
-        this.subcategory = subcategory;
     }
 }

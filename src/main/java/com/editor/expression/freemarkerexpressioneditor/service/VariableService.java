@@ -56,8 +56,8 @@ public class VariableService {
                         variable.setSubcategory(subcategory.isEmpty() ? "" : parentPath);
                         variable.setParameters(!indexPrefix.isEmpty());
                         variable.setDocumentation(prefixed + "." + field.getKey());
-                        variable.setComplexType(field.getValue().isArray());
-                        variable.setList(!indexPrefix.isEmpty());
+                        variable.setIsComplexType(field.getValue().isArray());
+                        variable.setIsList(!indexPrefix.isEmpty());
                         variable.setTemplate(prefixed);
                         variable.setListTemplate(prefix);
                         variable.setExample();

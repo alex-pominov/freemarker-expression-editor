@@ -1,45 +1,23 @@
 package com.editor.expression.freemarkerexpressioneditor;
 
-import com.editor.expression.freemarkerexpressioneditor.domain.Attribute;
-import com.editor.expression.freemarkerexpressioneditor.domain.Product;
-import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
-import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
-import com.editor.expression.freemarkerexpressioneditor.domain.price.Contract;
-import com.editor.expression.freemarkerexpressioneditor.domain.price.Currency;
-import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import com.editor.expression.freemarkerexpressioneditor.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@RequiredArgsConstructor
 @SpringBootApplication
 public class FreemarkerExpressionEditorApplication implements CommandLineRunner {
+    @Getter private final ProductRepository productRepository;
+    @Getter private final CurrencyRepository currencyRepository;
+    @Getter private final ContractRepository contractRepository;
+    @Getter private final ClassificationRepository classificationRepository;
+    @Getter private final AttributeRepository attributeRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(FreemarkerExpressionEditorApplication.class, args);
-    }
-
-    private final ProductRepository productRepository;
-    private final CurrencyRepository currencyRepository;
-    private final ContractRepository contractRepository;
-    private final ClassificationRepository classificationRepository;
-    private final AttributeRepository attributeRepository;
-
-    @Autowired
-    public FreemarkerExpressionEditorApplication(
-            ProductRepository productRepository, CurrencyRepository currencyRepository,
-            ContractRepository contractRepository, ClassificationRepository classificationRepository,
-            ClassificationGroupRepository classificationGroupRepository, AttributeRepository attributeRepository
-    ) {
-        this.productRepository = productRepository;
-        this.currencyRepository = currencyRepository;
-        this.contractRepository = contractRepository;
-        this.classificationRepository = classificationRepository;
-        this.attributeRepository = attributeRepository;
     }
 
     @Override

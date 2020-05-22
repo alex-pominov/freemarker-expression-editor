@@ -2,7 +2,8 @@ package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessSe
 
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,14 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class ClassificationAccessService {
-
-    private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public ClassificationAccessService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Getter private final JdbcTemplate jdbcTemplate;
 
     public List<Classification> getClassificationGrps() {
         String sql = "select * from classification;";

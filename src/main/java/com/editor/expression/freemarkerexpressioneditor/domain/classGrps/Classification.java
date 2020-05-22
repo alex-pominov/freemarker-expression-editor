@@ -1,13 +1,17 @@
 package com.editor.expression.freemarkerexpressioneditor.domain.classGrps;
 
+import lombok.AccessLevel;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.List;
 
+@Setter
+@Table("classification")
 public class Classification {
-    @Id
-    private Long id;
+    private @Id @Setter(AccessLevel.PROTECTED) Long id;
     private String name;
     @Column(value = "classification", keyColumn = "classificationKey")
     private List<ClassificationGroup> classificationGroups;
@@ -22,30 +26,11 @@ public class Classification {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<ClassificationGroup> getClassificationGroups() {
         return classificationGroups;
-    }
-
-    public void setClassificationGroups(List<ClassificationGroup> classificationGroups) {
-        this.classificationGroups = classificationGroups;
-    }
-
-    @Override
-    public String toString() {
-        return "\n\t\t\tClassification {\n" +
-                "\t\t\t\tclassificationName = " + name + ",\n" +
-                "\t\t}";
     }
 }

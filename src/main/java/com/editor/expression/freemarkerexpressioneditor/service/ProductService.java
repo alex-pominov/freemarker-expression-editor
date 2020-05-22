@@ -2,20 +2,16 @@ package com.editor.expression.freemarkerexpressioneditor.service;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService.ProductDataAccessService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-
-    private final ProductDataAccessService productDataAccessService;
-
-    @Autowired
-    public ProductService(ProductDataAccessService productDataAccessService) {
-        this.productDataAccessService = productDataAccessService;
-    }
+    @Getter private final ProductDataAccessService productDataAccessService;
 
     public Product getProduct(Long id) {
         return productDataAccessService.getProduct(id);

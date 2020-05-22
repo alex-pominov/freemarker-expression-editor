@@ -2,6 +2,8 @@ package com.editor.expression.freemarkerexpressioneditor.domain;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
 import com.editor.expression.freemarkerexpressioneditor.domain.domainRefs.Attribute2ClassGroupsRefs;
+import lombok.AccessLevel;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -9,10 +11,11 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+@Setter
 @Table("attribute")
 public class Attribute {
-    @Id
-    private Long id;
+
+    private @Id @Setter(AccessLevel.PROTECTED) Long id;
     private String type;
     private @Column("isMultiValued") boolean isMultiValued;
     private String name;
@@ -33,31 +36,15 @@ public class Attribute {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public boolean isMultiValued() {
         return isMultiValued;
     }
 
-    public void setMultiValued(boolean multiValued) {
-        isMultiValued = multiValued;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
