@@ -1,15 +1,10 @@
 package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Product;
-import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
-import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

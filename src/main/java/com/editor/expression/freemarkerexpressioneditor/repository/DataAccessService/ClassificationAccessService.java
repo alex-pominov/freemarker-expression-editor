@@ -2,7 +2,6 @@ package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessSe
 
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classification;
 import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.ClassificationGroup;
-import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

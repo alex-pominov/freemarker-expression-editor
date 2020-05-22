@@ -4,7 +4,6 @@ import com.editor.expression.freemarkerexpressioneditor.domain.Variable;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.apache.tomcat.jni.Directory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

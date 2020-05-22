@@ -1,9 +1,7 @@
 package com.editor.expression.freemarkerexpressioneditor.service;
 
-import com.editor.expression.freemarkerexpressioneditor.domain.Product;
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Currency;
 import com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService.CurrencyAccessService;
-import com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService.ProductDataAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
 package com.editor.expression.freemarkerexpressioneditor.repository.DataAccessService;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Attribute;
-import com.editor.expression.freemarkerexpressioneditor.domain.price.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
