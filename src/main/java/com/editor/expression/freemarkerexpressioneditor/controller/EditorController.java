@@ -27,7 +27,6 @@ public class EditorController {
 
     private final EditorService editorService;
     private final ProductService productService;
-    private final ClassificationGrpsService classificationGrps;
     private final VariableService variableService;
     private final ClassificationService classificationService;
     private final CurrencyService currencyService;
@@ -36,13 +35,12 @@ public class EditorController {
 
     @Autowired
     public EditorController(EditorService editorService, ProductService productService,
-                            ClassificationGrpsService classificationGrps, VariableService variableService,
+                            VariableService variableService,
                             ClassificationService classificationService, CurrencyService currencyService,
                             AttributeService attributeService
     ) {
         this.editorService = editorService;
         this.productService = productService;
-        this.classificationGrps = classificationGrps;
         this.variableService = variableService;
         this.classificationService = classificationService;
         this.currencyService = currencyService;

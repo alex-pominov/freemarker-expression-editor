@@ -27,7 +27,7 @@ public class AttributeAccessService {
         return (resultSet, i) -> {
             Long id = Long.parseLong(resultSet.getString("id"));
             String type = resultSet.getString("type");
-            boolean isMultiValued = resultSet.getString("ismultivalued").equals("t");
+            boolean isMultiValued = resultSet.getString("isMultiValued").equals("t");
             String name = resultSet.getString("name");
             return new Attribute(id, type, isMultiValued, name);
         };

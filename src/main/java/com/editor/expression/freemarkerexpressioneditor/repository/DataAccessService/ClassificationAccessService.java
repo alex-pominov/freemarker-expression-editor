@@ -35,19 +35,19 @@ public class ClassificationAccessService {
             String sql = "select classification.name, classificationgroups.classgroupname, classificationgroups.classgroupid, classificationgroups.parentid from classification, classificationgroups " +
                     "WHERE classificationgroups.classification = classification.id " +
                     "AND classificationgroups.parentid IS null " +
-                    "AND classification.id = " + classificationId;
+                    "AND classification.id = ?;";
             List<ClassificationGroup> classificationGroups = new ArrayList<>();
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, classificationId);
             for (Map<String, Object> row : rows) {
-//                Long parentId;
-//                try {
-//                    parentId = Long.parseLong(resultSet.getString("parentid"));
-//                } catch (NumberFormatException e) {
-//                    parentId = 0L;
-//                }
+                Long parentId;
+                try {
+                    parentId = Long.parseLong(row.get("parentId").toString());
+                } catch (NumberFormatException | NullPointerException e) {
+                    parentId = 0L;
+                }
                 ClassificationGroup classificationGroup = new ClassificationGroup(
                         Long.parseLong(row.get("classGroupId").toString()),
-                        0L,
+                        parentId,
                         row.get("classGroupName").toString()
                 );
                 classificationGroups.add(classificationGroup);

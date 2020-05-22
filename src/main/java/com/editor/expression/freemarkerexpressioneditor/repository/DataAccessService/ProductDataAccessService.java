@@ -6,7 +6,9 @@ import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classif
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -23,8 +25,8 @@ public class ProductDataAccessService {
     }
 
     public Product getProduct(Long id) {
-        String sql = "select * from product WHERE id=" + id;
-        List<Product> productList = jdbcTemplate.query(sql, mapProductFromDb());
+        String sql = "select * from product WHERE id= ?";
+        List<Product> productList = jdbcTemplate.query(sql, new Object[]{id}, mapProductFromDb());
         return productList.get(0);
     }
 
@@ -41,10 +43,10 @@ public class ProductDataAccessService {
             // Price List
             String priceSql = "" +
                     "select price.contractid, price.price, price.validfromquantity, price.currencyid from price " +
-                    "WHERE price.product = " + productId;
+                    "WHERE price.product = ?;";
 
             List<Price> prices = new ArrayList<>();
-            List<Map<String, Object>> priceRows = jdbcTemplate.queryForList(priceSql);
+            List<Map<String, Object>> priceRows = jdbcTemplate.queryForList(priceSql, productId);
             for (Map<String, Object> row : priceRows) {
                 Price price = new Price(
                         Long.parseLong(row.get("currencyId").toString()),
