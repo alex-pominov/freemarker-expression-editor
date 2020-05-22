@@ -8,7 +8,7 @@ const expressionsBar = () => {
   React.useEffect(() => {
     fetch("http://localhost:8080/freemarkerReferences")
       .then((responce) => responce.json())
-      .then((refs) => setReferences(refs.flat()));
+      .then((refs) => setReferences(refs.filter(Boolean).flat()));
   }, []);
 
   const onModalOpenHandler = (group, itemName) => {

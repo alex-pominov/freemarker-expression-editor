@@ -42,7 +42,6 @@ public class FreemarkerExpressionEditorApplication implements CommandLineRunner 
         this.attributeRepository = attributeRepository;
     }
 
-
     @Override
     public void run(String... args) {
 
