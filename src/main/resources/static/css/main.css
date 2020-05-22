@@ -16,6 +16,10 @@
     display: flex;
     align-items: center;
     height: 30px; }
+  .expressions .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
   .expressions--header {
     height: 5vh;
     padding: 1rem !important;
@@ -24,6 +28,23 @@
     text-transform: uppercase;
     font-weight: bold !important;
     letter-spacing: 1px; }
+  .expressions .arrow {
+    margin-left: auto;
+    border: solid #424457;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg); }
+  .expressions .expanded + .arrow {
+    margin-left: auto;
+    border: solid #ffa586;
+    margin-top: 3px;
+    border-width: 0 3px 3px 0;
+    transform: rotate(-135deg); }
+  .expressions button {
+    text-align: inherit; }
+    .expressions button::first-letter {
+      text-transform: uppercase; }
   .expressions--expressionsTypes {
     background: #2A2D40 !important;
     padding: 0 20px !important;
@@ -57,20 +78,15 @@
     padding: 0 20px;
     margin: 0 !important;
     height: 40px !important; }
-    .expressions--categories .expanded {
-      color: #EF7A57; }
     .expressions--categories button {
       outline: none;
       padding: 0 !important;
       font-size: 16px;
       border: none;
       color: white; }
-    .expressions--categories .expanded + .arrow {
-      margin-left: auto;
-      border: solid #EF7A57;
-      margin-top: 3px;
-      border-width: 0 3px 3px 0;
-      transform: rotate(-135deg); }
+    .expressions--categories .arrow {
+      border: solid #2A2D40;
+      border-width: 0 3px 3px 0; }
     .expressions--categories__menu {
       padding: 5px 0 0 0 !important;
       background: #484c68; }
@@ -81,8 +97,11 @@
         background: #484c68 !important; }
         .expressions--categories__menu .card .card-body {
           background: #606482 !important; }
+          .expressions--categories__menu .card .card-body ul li {
+            padding: 0 30px;
+            height: 30px; }
       .expressions--categories__menu button {
-        padding: 0 0 0 20px !important;
+        padding: 0 0 0 15px !important;
         font-size: 16px;
         outline: none;
         border: none;
@@ -94,20 +113,15 @@
   .expressions .Filters:after {
     background-color: #F5B855; }
   .expressions .button {
-    display: flex;
-    align-items: center;
+    display: block;
     height: 45px;
     color: white;
     position: relative;
     vertical-align: center;
     font-size: 16px; }
-  .expressions .arrow {
-    margin-left: auto;
-    border: solid #2A2D40;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(45deg); }
+
+.expanded {
+  color: #ffa586 !important; }
 
 li .isVariableUsed {
   display: none;

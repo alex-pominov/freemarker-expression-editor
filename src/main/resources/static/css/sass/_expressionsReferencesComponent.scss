@@ -18,6 +18,12 @@
     height: 30px;
   }
 
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &--header {
     height: 5vh;
     padding: 1rem !important;
@@ -26,6 +32,31 @@
     text-transform: uppercase;
     font-weight: bold !important;
     letter-spacing: 1px;
+  }
+
+  .arrow {
+    margin-left: auto;
+    border: solid #424457;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+  }
+
+  .expanded + .arrow {
+    margin-left: auto;
+    border: solid #ffa586;
+    margin-top: 3px;
+    border-width: 0 3px 3px 0;
+    transform: rotate(-135deg);
+  }
+
+  button {
+    text-align: inherit;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
 
   &--expressionsTypes {
@@ -54,7 +85,7 @@
       background: #3C405B;
 
       ul li {
-        height: 40px;
+        height: 35px;
       }
 
       button {
@@ -72,11 +103,7 @@
     align-items: center;
     padding: 0 20px;
     margin: 0 !important;
-    height: 40px !important;
-
-    .expanded {
-      color: #EF7A57;
-    }
+    height: 35px !important;
 
     button {
       outline: none;
@@ -86,12 +113,9 @@
       color: white;
     }
 
-    .expanded + .arrow {
-      margin-left: auto;
-      border: solid #EF7A57;
-      margin-top: 3px;
+    .arrow {
+      border: solid #2A2D40;
       border-width: 0 3px 3px 0;
-      transform: rotate(-135deg);
     }
 
     &__menu {
@@ -108,11 +132,16 @@
 
         & .card-body {
           background: #606482 !important;
+
+          ul li {
+            padding: 0 30px;
+            height: 30px;
+          }
         }
       }
 
       button {
-        padding: 0 0 0 20px !important;
+        padding: 0 0 0 15px !important;
         font-size: 16px;
         outline: none;
         border: none;
@@ -126,23 +155,17 @@
   .Filters:after {background-color: #F5B855;}
 
   .button {
-    display: flex;
-    align-items: center;
+    display: block;
     height: 45px;
     color: white;
     position: relative;
     vertical-align: center;
     font-size: 16px;
   }
+}
 
-  .arrow {
-    margin-left: auto;
-    border: solid #2A2D40;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(45deg);
-  }
+.expanded {
+  color: #ffa586 !important;
 }
 
 li .isVariableUsed {

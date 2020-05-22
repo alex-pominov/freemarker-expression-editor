@@ -73,7 +73,7 @@ const expressionsBar = () => {
         >
           {group}
         </CustomToggle>
-        {dataParent === "categories" && <i class="arrow"></i>}
+        <i className="arrow" />
       </Card.Header>
       <Accordion.Collapse eventKey={typeWithoutSpace} className="collapsed">
         <Card.Body className={`expressions--${dataParent}__menu`}>
@@ -148,13 +148,13 @@ let activeKeys = [];
 function CustomToggle({children, eventKey, selector}) {
   let isOpen = activeKeys.includes(eventKey);
   const toggleAccordion = useAccordionToggle(eventKey, () => {
-    if (!isOpen) activeKeys = eventKey;
+    activeKeys = isOpen ? "" : eventKey;
   });
   return (
     <button
       type="button"
       className={`button ${selector} ${isOpen ? "expanded" : ""}`}
-      style={isOpen ? {color: '#EF7A57'} : null}
+      // style={isOpen ? {color: '#EF7A57'} : null}
       onClick={toggleAccordion}
     >
       {children}
