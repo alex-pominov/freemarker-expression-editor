@@ -17,7 +17,7 @@ public class ProductService {
         return productDataAccessService.getProduct(id);
     }
 
-    public List<Product> getProducts() {
-        return productDataAccessService.getProducts();
+    public List<Product> getAllProducts() {
+        return productDataAccessService.getAllProducts();
     }
 }

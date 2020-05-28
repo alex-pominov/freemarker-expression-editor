@@ -23,9 +23,9 @@ public class ClassificationAccessService {
     }
 
     private RowMapper<Classification> mapGroupsFromDb() {
-        return (resultSet, i) -> {
-            Long classificationId = Long.parseLong(resultSet.getString("id"));
-            String classificationName = resultSet.getString("name");
+        return (rs, i) -> {
+            Long classificationId = rs.getLong("id");
+            String classificationName = rs.getString("name");
 
             String sql = "select classification.name, classificationgroups.classgroupname, classificationgroups.classgroupid, classificationgroups.parentid from classification, classificationgroups " +
                     "WHERE classificationgroups.classification = classification.id " +
@@ -34,15 +34,9 @@ public class ClassificationAccessService {
             List<ClassificationGroup> classificationGroups = new ArrayList<>();
             List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, classificationId);
             for (Map<String, Object> row : rows) {
-                Long parentId;
-                try {
-                    parentId = Long.parseLong(row.get("parentId").toString());
-                } catch (NumberFormatException | NullPointerException e) {
-                    parentId = 0L;
-                }
                 ClassificationGroup classificationGroup = new ClassificationGroup(
                         Long.parseLong(row.get("classGroupId").toString()),
-                        parentId,
+                        row.get("parentId") != null ? Long.parseLong(row.get("parentId").toString()) : 0L,
                         row.get("classGroupName").toString()
                 );
                 classificationGroups.add(classificationGroup);

@@ -1,6 +1,10 @@
 package com.editor.expression.freemarkerexpressioneditor.service;
 
 import com.editor.expression.freemarkerexpressioneditor.domain.Editor;
+import com.editor.expression.freemarkerexpressioneditor.domain.Variable;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
@@ -8,6 +12,7 @@ import com.vladsch.flexmark.util.data.MutableDataSet;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -67,6 +73,27 @@ public class EditorService {
         } catch (IOException | TemplateException e) {
             String error = e.toString();
             throw new IllegalStateException(error);
+        }
+    }
+
+    public ResponseEntity<Object> getEditorReferences(List<Variable> variables) {
+        Resource filters = new ClassPathResource("/json/Filters.json");
+        Resource controlRefs = new ClassPathResource("/json/ControlAndLoops.json");
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode filtersJSON = mapper.readTree(filters.getInputStream());
+            JsonNode controlRefsJSON = mapper.readTree(controlRefs.getInputStream());
+            JsonNode variablesNode = mapper.valueToTree(variables);
+
+            ArrayNode arrayNode = mapper.createArrayNode()
+                    .add(filtersJSON)
+                    .add(controlRefsJSON)
+                    .add(variablesNode);
+
+            return new ResponseEntity<>(arrayNode, HttpStatus.OK);
+
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

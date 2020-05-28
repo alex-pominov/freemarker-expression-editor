@@ -20,10 +20,9 @@ public class CurrencyAccessService {
     }
 
     private RowMapper<Currency> mapCurrencyFromDb() {
-        return (resultSet, i) -> {
-            Long id = Long.parseLong(resultSet.getString("id"));
-            String currencyName = resultSet.getString("name");
-            return new Currency(id, currencyName);
-        };
+        return (rs, i) -> Currency.builder()
+                .id(rs.getLong("id"))
+                .name(rs.getString("name"))
+                .build();
     }
 }

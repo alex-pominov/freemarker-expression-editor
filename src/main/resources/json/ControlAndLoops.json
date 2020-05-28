@@ -41,5 +41,24 @@
     "parameters": "<ul><li><span>condition, condition2, ...etc.</span>:Expression evaluates to a boolean value.</li></ul>",
     "example": "<#if x == 1>\n  x is 1\n<#else>\n  x is not 1\n</#if>",
     "template": "<#if condition>\n  ...\n<#elseif condition2>\n  ...\n...\n<#else>\n  ...\n</#if>\n"
+  },
+  {
+    "name": "List",
+    "groupName": "Control and Loops",
+    "documentation": "The list directive executes the code between the list start-tag and list end-tag (the body of list from now on) for each value in the sequence (or collection) specified as its first parameter. For each such iteration the loop variable (user in this example) will store the value of the current item.",
+    "insertRule": "insert",
+    "parameters": "<ul><li><span>value, refValue1, etc.</span>: Expressions evaluates to scalars of the same type.</li></ul>",
+    "example": "Assuming users contains the ['Joe', 'Kate', 'Fred'] sequence:\n<#list users as user>\n  ${user}\n</#list>",
+    "output": "Joe\nKate\nFred",
+    "template": "<#list sequence as item>\n    Part repeated for each item\n</#list>"
+  },
+  {
+    "name": "Switch",
+    "groupName": "Control and Loops",
+    "documentation": "Switch is used to choose a fragment of template depending on the value of an expression. Inside the switch must be one or more <#case value>, and after all such case tags optionally one <#default>. When FM reaches the switch directive, it chooses a case directive where refValue equals with value and continues the processing of the template there. If there is no case directive with appropriate value then it continues processing at the default directive if that exists, otherwise it continues the processing after the end-tag of switch.",
+    "insertRule": "insert",
+    "parameters": "<ul><li><span>value, refValue1, etc.</span>: Expressions evaluates to scalars of the same type.</li></ul>",
+    "example": "<#switch animal.size>\n  <#case \"small\">\n     This will be processed if it is small\n     <#break>\n  <#case \"medium\">\n     This will be processed if it is medium\n     <#break>\n  <#case \"large\">\n     This will be processed if it is large\n     <#break>\n  <#default>\n     This will be processed if it is neither\n</#switch>",
+    "template": "<#switch value>\n  <#case refValue1>\n    ...\n    <#break>\n  <#case refValue2>\n    ...\n    <#break>\n  ...\n  <#case refValueN>\n    ...\n    <#break>\n  <#default>\n    ...\n</#switch>\n"
   }
 ]

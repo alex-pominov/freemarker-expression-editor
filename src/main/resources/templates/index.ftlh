@@ -3,6 +3,7 @@
 <head>
   <title>Expression Editor</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="icon" href="https://cdn0.iconfinder.com/data/icons/actual-mobile-functions-in-material-design/154/material-design-edit-text-editor-notepad-512.png" />
   <link rel="stylesheet" href="css/main.css"/>
   <!--  CodeMirror CSS  -->
   <link rel="stylesheet" href="plugin/codemirror/lib/codemirror.css"/>

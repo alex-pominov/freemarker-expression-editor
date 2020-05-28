@@ -3,7 +3,7 @@ package com.editor.expression.freemarkerexpressioneditor.domain.domainRefs;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("attribute2classgrps")
+@Table("attribute2ClassGrps")
 public class Attribute2ClassGroupsRefs {
     private @Column("classificationGroups") Long classificationGroupId;
 

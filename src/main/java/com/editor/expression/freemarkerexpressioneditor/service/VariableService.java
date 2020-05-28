@@ -27,20 +27,22 @@ public class VariableService {
         return variables;
     }
 
+    // Method that iterate through all Map fields and create variable of that field
+    // If fields is List than iterate over each child field to create variable
+    // This method creates Variables used it UI to access specific Data
     private void process(List<Variable> variables, String prefix, String parentPath,
                          JsonNode currentNode, String subcategory, String indexPrefix) {
 
         String prefixed = indexPrefix.isEmpty() ? prefix : prefix + indexPrefix;
 
         if (currentNode.isArray()) {
-
             ArrayNode arrayNode = (ArrayNode) currentNode;
             Iterator<JsonNode> node = arrayNode.elements();
             currentNode.fields().forEachRemaining(field -> System.out.println(field.getKey()));
             process(variables, prefixed, parentPath, node.next(), subcategory, "[index]");
 
         } else if (currentNode.isObject()) {
-
+            // If node is Array than iterate over each child field
             currentNode.fields().forEachRemaining(entry -> {
                 if (entry.getValue().isArray() && subcategory.equals("")) {
                     process(variables, prefixed + "." + entry.getKey(), parentPath, entry.getValue(),

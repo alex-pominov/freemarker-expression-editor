@@ -18,20 +18,20 @@ public class ProductDataAccessService {
     @Getter private final JdbcTemplate jdbcTemplate;
 
     public Product getProduct(Long id) {
-        String sql = "select * from product WHERE id= ?";
+        String sql = "select * from product WHERE id = ?";
         List<Product> productList = jdbcTemplate.query(sql, new Object[]{id}, mapProductFromDb());
         return productList.get(0);
     }
 
-    public List<Product> getProducts() {
+    public List<Product> getAllProducts() {
         String sql = "select * from product;";
         return jdbcTemplate.query(sql, mapProductFromDb());
     }
 
     private RowMapper<Product> mapProductFromDb() {
-        return (resultSet, i) -> {
-            Long productId = Long.parseLong(resultSet.getString("id"));
-            String shortDesc = resultSet.getString("shortDesc");
+        return (rs, i) -> {
+            Long productId = rs.getLong("id");
+            String shortDesc = rs.getString("shortDesc");
 
             // Price List
             String priceSql = "" +

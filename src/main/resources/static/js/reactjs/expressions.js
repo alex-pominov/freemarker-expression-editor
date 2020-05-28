@@ -19,16 +19,16 @@ const expressionsBar = () => {
     return openModalWithReference(obj);
   };
 
-  const expressions = (object) => {
-    if (object) {
+  const expressions = (refs) => {
+    if (refs) {
       // Unique types of expressions
-      const groups = [...new Set(Object.values(object).map((v) => v.groupName))].filter(v => v !== "");
+      const groups = [...new Set(Object.values(refs).map((v) => v.groupName))].filter(v => v !== "");
 
       // Render accordion for each of type
       return groups.map((group) => {
         const categories = [
           ...new Set(
-            Object.values(object)
+            Object.values(refs)
               .filter((v) => v.groupName === group)
               .map((v) => v.parentPath)
               .filter(Boolean)
@@ -37,7 +37,7 @@ const expressionsBar = () => {
 
         let options = [
           ...new Set(
-            Object.values(object)
+            Object.values(refs)
               .filter((v) => v.groupName === group && !v.parentPath)
               .map((v) => v.name)
           ),
@@ -58,6 +58,7 @@ const expressionsBar = () => {
     }
   };
 
+  // Function that return wrapper for Accordion
   const renderAccordion = (
     dataParent,
     options,
@@ -85,6 +86,9 @@ const expressionsBar = () => {
     </Card>
   );
 
+  // Inner part of Accordion
+  // If have subcategories than render one more Accordion
+  // Else render field (options) of current variables Group
   const renderAccordionOptions = (group, options, categories) => {
     if (!categories.length) {
       // if no subcategories than render as a list
@@ -144,6 +148,7 @@ const expressionsBar = () => {
   );
 };
 
+// Custom toggle to manage expanded / closed Bootstrap Accordion
 let activeKeys = [];
 function CustomToggle({children, eventKey, selector}) {
   let isOpen = activeKeys.includes(eventKey);
@@ -154,7 +159,6 @@ function CustomToggle({children, eventKey, selector}) {
     <button
       type="button"
       className={`button ${selector} ${isOpen ? "expanded" : ""}`}
-      // style={isOpen ? {color: '#EF7A57'} : null}
       onClick={toggleAccordion}
     >
       {children}

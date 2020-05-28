@@ -4,8 +4,6 @@ import com.editor.expression.freemarkerexpressioneditor.domain.classGrps.Classif
 import com.editor.expression.freemarkerexpressioneditor.domain.domainRefs.Product2ClassGroupsRefs;
 import com.editor.expression.freemarkerexpressioneditor.domain.price.Price;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -14,13 +12,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Setter
 @Table("product")
 public class Product {
 
-    private @Id @Setter(AccessLevel.PROTECTED) Long id;
-    private @Column("shortDesc") String shortDesc; // TODO multiple lang
-    private List<Price> prices;
+    private @Id final Long id;
+    private @Column("shortDesc") final String shortDesc; // TODO multiple lang
+    private final List<Price> prices;
     private final Set<Product2ClassGroupsRefs> classGroups = new HashSet<>();
 
     public Product(

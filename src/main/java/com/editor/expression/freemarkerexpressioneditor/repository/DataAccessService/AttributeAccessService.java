@@ -20,12 +20,18 @@ public class AttributeAccessService {
     }
 
     private RowMapper<Attribute> mapAttributeFromDb() {
-        return (resultSet, i) -> {
-            Long id = Long.parseLong(resultSet.getString("id"));
-            String type = resultSet.getString("type");
-            boolean isMultiValued = resultSet.getString("isMultiValued").equals("t");
-            String name = resultSet.getString("name");
-            return new Attribute(id, type, isMultiValued, name);
-        };
+        return (rs, i) -> Attribute.builder()
+                .id(rs.getLong("id"))
+                .type(rs.getString("type"))
+                .isMultiValued(yesNoToBoolean(rs.getString("isMultiValued")))
+                .name(rs.getString("name"))
+                .build();
+    }
+
+    private Boolean yesNoToBoolean(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.equals("t");
     }
 }
